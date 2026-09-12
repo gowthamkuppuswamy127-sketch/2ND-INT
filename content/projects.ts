@@ -1,0 +1,351 @@
+import type { MediaSlot } from "@/lib/media";
+
+export type Project = {
+  slug: string;
+  /** Studio drawing reference: practice, year, job number. */
+  ref: string;
+  name: string;
+  location: string;
+  year: string;
+  typology: string;
+  summary: string;
+  brief: string[];
+  materials: string[];
+  specs: { label: string; value: string }[];
+  cover: MediaSlot;
+  gallery: MediaSlot[];
+};
+
+export const projects: Project[] = [
+  {
+    slug: "house-of-seven-courtyards",
+    ref: "NI–24–02",
+    name: "House of Seven Courtyards",
+    location: "Karaikudi, Tamil Nadu",
+    year: "2024",
+    typology: "Residence",
+    summary: "A Chettinad house reopened to its own courtyards.",
+    brief: [
+      "The house had been closed room by room over forty years — courtyards roofed over, verandas glazed in, the long central hall partitioned into bedrooms. The family wanted the plan back.",
+      "We removed what had been added rather than adding anything new. Four of the seven courtyards were reopened to the sky. The athangudi tiles were lifted, catalogued, and relaid where earlier work had cut through them.",
+      "The only new material is brass: door pulls, the kitchen counter edge, and a rainwater channel that runs the length of the second courtyard.",
+    ],
+    materials: [
+      "Athangudi tile, relaid",
+      "Burma teak, existing",
+      "Lime plaster",
+      "Brass",
+      "Kota stone",
+    ],
+    specs: [
+      { label: "Location", value: "Karaikudi, Tamil Nadu" },
+      { label: "Completed", value: "2024" },
+      { label: "Area", value: "6,200 sq ft" },
+      { label: "Typology", value: "Residence" },
+      { label: "Scope", value: "Restoration and interiors" },
+    ],
+    cover: {
+      src: "",
+      alt: "The second courtyard of the house, reopened to the sky",
+      aspect: "4 / 3",
+      tone: "stone",
+    },
+    gallery: [
+      {
+        src: "",
+        alt: "Relaid athangudi tile meeting a lime-plastered wall",
+        aspect: "3 / 4",
+        tone: "linen",
+      },
+      {
+        src: "",
+        alt: "Brass rainwater channel running the length of the courtyard",
+        aspect: "3 / 2",
+        tone: "brass",
+      },
+      {
+        src: "",
+        alt: "The central hall with its partitions removed",
+        aspect: "4 / 3",
+        tone: "oak",
+      },
+    ],
+  },
+  {
+    slug: "apartment-on-cathedral-road",
+    ref: "NI–24–05",
+    name: "Apartment on Cathedral Road",
+    location: "Chennai",
+    year: "2024",
+    typology: "Residence",
+    summary: "Two flats joined into one, around a single long window.",
+    brief: [
+      "Two adjacent flats on the ninth floor, bought a year apart. The brief was one home, and one uninterrupted view west across the Adyar.",
+      "We put everything that needed a wall along the east side — kitchen, utility, two bathrooms, storage — and left the west edge entirely clear. Living room, dining and study now read as one fourteen-metre room with a window down its whole length.",
+      "Blinds are linen, not roller. In Chennai the afternoon light needs softening, not blocking.",
+    ],
+    materials: [
+      "Lime-washed walls",
+      "Teak veneer",
+      "Kota stone",
+      "Linen",
+      "Brass",
+    ],
+    specs: [
+      { label: "Location", value: "Chennai" },
+      { label: "Completed", value: "2024" },
+      { label: "Area", value: "2,400 sq ft" },
+      { label: "Typology", value: "Residence" },
+      { label: "Scope", value: "Combination and full interiors" },
+    ],
+    cover: {
+      src: "",
+      alt: "The fourteen-metre living room with its west window",
+      aspect: "4 / 3",
+      tone: "linen",
+    },
+    gallery: [
+      {
+        src: "",
+        alt: "Linen blinds softening late afternoon light",
+        aspect: "3 / 4",
+        tone: "linen",
+      },
+      {
+        src: "",
+        alt: "Teak veneer storage wall along the east side",
+        aspect: "3 / 2",
+        tone: "oak",
+      },
+      {
+        src: "",
+        alt: "Kota stone counter meeting the dining table",
+        aspect: "4 / 3",
+        tone: "stone",
+      },
+    ],
+  },
+  {
+    slug: "the-weavers-house",
+    ref: "NI–23–01",
+    name: "The Weavers' House",
+    location: "Kanchipuram",
+    year: "2023",
+    typology: "Restoration",
+    summary: "A silk-weaving family's house, with the looms kept in place.",
+    brief: [
+      "Three generations of the family have woven in the front two rooms. The pit looms stay. Everything else was negotiable.",
+      "We rebuilt the rear of the house — kitchen, bathrooms, a courtyard for washing and drying — and left the loom rooms structurally untouched, improving only the light. Two clerestory openings on the north wall now give even, non-directional light onto the warp, which is what the work needs.",
+      "The house is not a museum. It is a workplace with a family living behind it.",
+    ],
+    materials: [
+      "Country brick",
+      "Lime plaster",
+      "Reclaimed teak",
+      "Athangudi tile",
+      "Terracotta",
+    ],
+    specs: [
+      { label: "Location", value: "Kanchipuram" },
+      { label: "Completed", value: "2023" },
+      { label: "Area", value: "3,100 sq ft" },
+      { label: "Typology", value: "Restoration" },
+      { label: "Scope", value: "Rear rebuild, loom room light" },
+    ],
+    cover: {
+      src: "",
+      alt: "North clerestory light falling across a pit loom",
+      aspect: "4 / 3",
+      tone: "oak",
+    },
+    gallery: [
+      {
+        src: "",
+        alt: "Warp threads under even clerestory light",
+        aspect: "3 / 2",
+        tone: "linen",
+      },
+      {
+        src: "",
+        alt: "The new rear courtyard for washing and drying",
+        aspect: "3 / 4",
+        tone: "stone",
+      },
+      {
+        src: "",
+        alt: "Reclaimed teak door in a country brick wall",
+        aspect: "4 / 3",
+        tone: "shade",
+      },
+    ],
+  },
+  {
+    slug: "cardamom-house",
+    ref: "NI–23–04",
+    name: "Cardamom House",
+    location: "Munnar, Kerala",
+    year: "2023",
+    typology: "Hospitality",
+    summary: "Eight rooms in a working cardamom estate.",
+    brief: [
+      "The owners run forty acres of cardamom and wanted eight guest rooms that did not pretend the estate was not there.",
+      "Rooms sit in two rows along the contour, so every one looks down the slope rather than at another room. Circulation is external and covered — you walk outside to get to dinner, under a roof, in the rain.",
+      "Walls are local granite with a lime pointing. Glazing is minimal and deep-set: at sixteen hundred metres the weather does most of the talking.",
+    ],
+    materials: [
+      "Local granite",
+      "Lime pointing",
+      "Rosewood",
+      "Handloom cotton",
+      "Copper",
+    ],
+    specs: [
+      { label: "Location", value: "Munnar, Kerala" },
+      { label: "Completed", value: "2023" },
+      { label: "Area", value: "8,500 sq ft" },
+      { label: "Typology", value: "Hospitality" },
+      { label: "Scope", value: "Eight rooms and dining" },
+    ],
+    cover: {
+      src: "",
+      alt: "Guest rooms stepping down the contour of the estate",
+      aspect: "4 / 3",
+      tone: "shade",
+    },
+    gallery: [
+      {
+        src: "",
+        alt: "Covered external walkway in the rain",
+        aspect: "3 / 2",
+        tone: "stone",
+      },
+      {
+        src: "",
+        alt: "Deep-set window opening onto the cardamom slope",
+        aspect: "3 / 4",
+        tone: "oak",
+      },
+      {
+        src: "",
+        alt: "Copper basin against dry-laid granite",
+        aspect: "4 / 3",
+        tone: "brass",
+      },
+    ],
+  },
+  {
+    slug: "studio-on-millers-road",
+    ref: "NI–22–03",
+    name: "Studio on Millers Road",
+    location: "Bengaluru",
+    year: "2022",
+    typology: "Workplace",
+    summary: "A design practice's own office, built in nine weeks.",
+    brief: [
+      "A first-floor shell above a tyre shop, taken on a short lease with a fixed, small budget and a hard date.",
+      "Nothing is built in. The long work table, the plan chest, the library wall and the meeting table are free-standing and were made off-site in plywood and steel. If the practice moves, the office moves with it.",
+      "The only permanent work was to the ceiling: we removed a false ceiling, found a three-and-a-half-metre slab, and left it raw.",
+    ],
+    materials: [
+      "Birch ply",
+      "Mild steel",
+      "Existing concrete",
+      "Cotton dhurrie",
+      "Brass",
+    ],
+    specs: [
+      { label: "Location", value: "Bengaluru" },
+      { label: "Completed", value: "2022" },
+      { label: "Area", value: "1,800 sq ft" },
+      { label: "Typology", value: "Workplace" },
+      { label: "Scope", value: "Fit-out, free-standing" },
+    ],
+    cover: {
+      src: "",
+      alt: "The long plywood work table under a raw concrete slab",
+      aspect: "4 / 3",
+      tone: "oak",
+    },
+    gallery: [
+      {
+        src: "",
+        alt: "Birch ply plan chest and steel frame",
+        aspect: "3 / 2",
+        tone: "linen",
+      },
+      {
+        src: "",
+        alt: "The library wall, free-standing against the shell",
+        aspect: "3 / 4",
+        tone: "oak",
+      },
+      {
+        src: "",
+        alt: "Raw slab ceiling with surface conduit",
+        aspect: "4 / 3",
+        tone: "shade",
+      },
+    ],
+  },
+  {
+    slug: "lime-and-teak-residence",
+    ref: "NI–22–06",
+    name: "Lime and Teak Residence",
+    location: "Fort Kochi",
+    year: "2022",
+    typology: "Residence",
+    summary: "A narrow plot house that cools itself.",
+    brief: [
+      "Five metres wide, twenty-six deep, with buildings hard on both sides. The only usable light and air come from the two short ends and from above.",
+      "A stair courtyard sits at the centre of the plan and runs the full height of the house, open at the top under a louvred cover. Warm air leaves through it; the ground floor stays noticeably cooler than the street.",
+      "Walls are lime plaster over country brick — vapour-open, and forgiving of the salt that comes off the water three streets away.",
+    ],
+    materials: [
+      "Country brick",
+      "Lime plaster",
+      "Burma teak",
+      "Mangalore tile",
+      "Brass",
+    ],
+    specs: [
+      { label: "Location", value: "Fort Kochi" },
+      { label: "Completed", value: "2022" },
+      { label: "Area", value: "4,000 sq ft" },
+      { label: "Typology", value: "Residence" },
+      { label: "Scope", value: "New build and interiors" },
+    ],
+    cover: {
+      src: "",
+      alt: "The stair courtyard running the full height of the house",
+      aspect: "3 / 4",
+      tone: "linen",
+    },
+    gallery: [
+      {
+        src: "",
+        alt: "Louvred cover over the courtyard at roof level",
+        aspect: "4 / 3",
+        tone: "stone",
+      },
+      {
+        src: "",
+        alt: "Teak stair treads against lime plaster",
+        aspect: "3 / 2",
+        tone: "oak",
+      },
+      {
+        src: "",
+        alt: "Brass pull on a teak door",
+        aspect: "3 / 4",
+        tone: "brass",
+      },
+    ],
+  },
+];
+
+export function getProject(slug: string): Project | undefined {
+  return projects.find((p) => p.slug === slug);
+}
+
+/** Home page shows the three most recent. */
+export const selectedProjects = projects.slice(0, 3);
