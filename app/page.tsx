@@ -1,127 +1,163 @@
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import MediaFrame from "@/components/MediaFrame";
+import ProjectCarousel from "@/components/ProjectCarousel";
 import Reveal from "@/components/Reveal";
-import { selectedProjects } from "@/content/projects";
+import SpaceStrip from "@/components/SpaceStrip";
+import { projects } from "@/content/projects";
 import { home } from "@/content/studio";
 import { siteMedia } from "@/lib/media";
 
+type Service = (typeof home.services.items)[number];
+
+/** One cell of the services grid. Sized by the grid, so it fills its row. */
+function ServiceCard({ item, index }: { item: Service; index: number }) {
+  return (
+    <Reveal delay={index * 80} className="h-full">
+      <div className="flex h-full flex-col border border-rule bg-page p-7 md:p-8">
+        <div className="flex items-baseline gap-4">
+          <p className="label shrink-0 tabular-nums">
+            /{String(index + 1).padStart(2, "0")}
+          </p>
+          <h3 className="display-sm">{item.title}</h3>
+        </div>
+
+        <p className="mt-5 border-t border-rule pt-5 text-[0.9375rem] leading-relaxed text-ink-muted">
+          {item.body}
+        </p>
+
+        <Link
+          href={home.services.link.href}
+          className="label link-underline mt-auto self-start pt-8 text-ink"
+        >
+          {home.services.link.label}
+          <span className="sr-only"> {item.enquiry}</span>
+        </Link>
+      </div>
+    </Reveal>
+  );
+}
+
 export default function HomePage() {
+  const services = home.services.items;
+
   return (
     <>
       <Hero />
 
       <section className="shell py-section-sm md:py-section">
-        <div className="grid items-start gap-12 md:grid-cols-2 md:gap-16">
-          <Reveal>
-            <p className="label">{home.philosophy.label}</p>
-            <h2 className="display-section mt-5 max-w-[14ch]">
-              {home.philosophy.heading}
-            </h2>
-            <div className="mt-8 space-y-5 prose-measure text-ink-muted">
-              {home.philosophy.body.map((paragraph) => (
-                <p key={paragraph} className="leading-relaxed">
-                  {paragraph}
-                </p>
-              ))}
+        <Reveal>
+          <div className="flex flex-wrap items-start justify-between gap-x-10 gap-y-8">
+            <div>
+              <p className="label">{home.philosophy.label}</p>
+              <h2 className="display-section mt-5 max-w-[14ch]">
+                {home.philosophy.heading}
+              </h2>
             </div>
+
             <Link
               href={home.philosophy.link.href}
-              className="label link-underline mt-8 inline-block text-ink"
+              className="label btn-solid shrink-0"
             >
               {home.philosophy.link.label}
             </Link>
-          </Reveal>
+          </div>
 
-          <Reveal delay={120}>
-            <MediaFrame
-              slot={siteMedia.homePhilosophy}
-              sizes="(min-width: 768px) 45vw, 100vw"
-            />
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="shell pb-section-sm md:pb-section">
-        <Reveal>
-          <div className="flex items-end justify-between gap-6 border-b border-rule pb-6">
-            <h2 className="display-section">Selected work</h2>
-            <Link
-              href="/projects"
-              className="label link-underline shrink-0 text-ink"
-            >
-              All projects
-            </Link>
+          <div className="mt-10 grid max-w-[62rem] gap-5 text-ink-muted md:grid-cols-2 md:gap-12">
+            {home.philosophy.body.map((paragraph) => (
+              <p key={paragraph} className="leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
           </div>
         </Reveal>
 
-        <ul className="mt-12 grid gap-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-          {selectedProjects.map((project, i) => (
-            <li key={project.slug} className="flex">
-              <Reveal delay={i * 100} className="flex w-full">
-                {/* Column with the meta pushed to the bottom, so a title that
-                    wraps to two lines doesn't shunt its row out of alignment. */}
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="group flex w-full flex-col"
-                >
-                  <MediaFrame
-                    slot={{ ...project.cover, aspect: "3 / 4" }}
-                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
-                  />
-                  <p className="label mt-5">{project.ref}</p>
-                  <h3 className="display-sm mt-2 transition-transform duration-300 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1">
-                    {project.name}
-                  </h3>
-                  <p className="label mt-auto pt-3">
-                    {project.location} · {project.year}
-                  </p>
-                </Link>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-16 md:mt-24">
+          <SpaceStrip />
+        </div>
       </section>
 
       <section className="bg-surface py-section-sm md:py-section">
         <div className="shell">
           <Reveal>
-            <p className="label">{home.services.label}</p>
-            <h2 className="display-section mt-5">{home.services.heading}</h2>
+            <div className="mx-auto max-w-[17rem] text-center">
+              <p className="label">{home.services.label}</p>
+              <h2 className="display-section mt-5">{home.services.heading}</h2>
+            </div>
           </Reveal>
 
-          <dl className="mt-14 grid gap-px border border-rule bg-rule sm:grid-cols-2">
-            {home.services.items.map((item, i) => (
-              <div key={item.title} className="bg-surface p-8 md:p-10">
-                <Reveal delay={i * 80}>
-                  <dt className="display-sm">{item.title}</dt>
-                  <dd className="mt-4 max-w-[38ch] leading-relaxed text-ink-muted">
-                    {item.body}
-                  </dd>
-                </Reveal>
+          {/* Three columns with a photograph on the end of the first row and
+              the start of the second, so the plates sit diagonally across the
+              grid rather than in a column of their own. */}
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 md:mt-16 md:grid-cols-3">
+            <ServiceCard item={services[0]} index={0} />
+            <ServiceCard item={services[1]} index={1} />
+
+            {/* Absolute inside a stretched cell, so the plate takes the row's
+                height. Left to size itself, its own aspect ratio would compute
+                a width from that height and push into the next column. The
+                min-height is for the stacked case, where the plate is alone in
+                its row and has nothing to be stretched against. */}
+            <Reveal delay={160} className="relative min-h-56">
+              <div className="absolute inset-0">
+                <MediaFrame
+                  slot={siteMedia.homeServices}
+                  className="h-full w-full"
+                  sizes="(min-width: 768px) 31vw, (min-width: 640px) 46vw, 100vw"
+                />
               </div>
-            ))}
-          </dl>
+            </Reveal>
+
+            {/* Stacked, the two plates would land back to back. */}
+            <Reveal className="relative hidden min-h-56 sm:block">
+              <div className="absolute inset-0">
+                <MediaFrame
+                  slot={siteMedia.homeServicesRoom}
+                  className="h-full w-full"
+                  sizes="(min-width: 768px) 31vw, 46vw"
+                />
+              </div>
+            </Reveal>
+
+            <ServiceCard item={services[2]} index={2} />
+            <ServiceCard item={services[3]} index={3} />
+          </div>
         </div>
       </section>
 
       <section className="shell py-section-sm md:py-section">
+        <ProjectCarousel projects={projects}>
+          <p className="label">{home.work.label}</p>
+          <h2 className="display-section mt-5 max-w-[32rem]">
+            {home.work.heading}
+          </h2>
+        </ProjectCarousel>
+
         <Reveal>
-          <div className="max-w-[52ch]">
-            <h2 className="display-section max-w-[16ch]">
-              {home.cta.heading}
-            </h2>
-            <p className="mt-7 leading-relaxed text-ink-muted">
-              {home.cta.body}
-            </p>
-            <Link
-              href={home.cta.link.href}
-              className="label mt-10 inline-block border border-ink px-8 py-4 text-ink transition-colors duration-300 hover:bg-ink hover:text-page"
-            >
-              {home.cta.link.label}
+          <div className="mt-14 text-center md:mt-16">
+            <Link href={home.work.link.href} className="label btn-solid">
+              {home.work.link.label}
             </Link>
           </div>
         </Reveal>
+      </section>
+
+      <section className="bg-surface py-section-sm md:py-section">
+        <div className="shell">
+          <Reveal>
+            <div className="max-w-[52ch]">
+              <h2 className="display-section max-w-[16ch]">
+                {home.cta.heading}
+              </h2>
+              <p className="mt-7 leading-relaxed text-ink-muted">
+                {home.cta.body}
+              </p>
+              <Link href={home.cta.link.href} className="label btn-solid mt-10">
+                {home.cta.link.label}
+              </Link>
+            </div>
+          </Reveal>
+        </div>
       </section>
     </>
   );

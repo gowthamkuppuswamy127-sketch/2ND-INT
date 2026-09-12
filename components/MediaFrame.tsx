@@ -7,6 +7,9 @@ type Props = {
   priority?: boolean;
   sizes?: string;
   className?: string;
+  /** Overlays drawn inside the frame — corner tags, hover marks. Positioned
+      against the frame itself, which is the containing block. */
+  children?: React.ReactNode;
 };
 
 /**
@@ -19,6 +22,7 @@ export default function MediaFrame({
   priority = false,
   sizes = "(min-width: 1024px) 50vw, 100vw",
   className = "",
+  children,
 }: Props) {
   return (
     <div
@@ -47,6 +51,8 @@ export default function MediaFrame({
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 border border-rule"
       />
+      {/* After the hairline, so an overlay sits above it rather than under. */}
+      {children}
     </div>
   );
 }

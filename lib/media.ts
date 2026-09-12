@@ -86,6 +86,12 @@ export const siteMedia = {
     aspect: "3 / 2",
     tone: "brass",
   },
+  homeServicesRoom: {
+    src: "",
+    alt: "A living room in late light, seen from the doorway",
+    aspect: "3 / 2",
+    tone: "linen",
+  },
   studioPortrait: {
     src: "",
     alt: "The Nilayaa studio team reviewing drawings at a long teak table",
@@ -105,3 +111,38 @@ export const siteMedia = {
     tone: "shade",
   },
 } satisfies Record<string, MediaSlot>;
+
+/**
+ * The four plates in the home page strip, in order. Paired by index with
+ * `home.spaces.items` in content/studio.ts — keep the two arrays the same
+ * length and the same order.
+ *
+ * The aspects are deliberately uneven: the third plate is the tall one the
+ * strip steps up to. Changing them changes the rhythm of the row.
+ */
+export const homeSpaces: MediaSlot[] = [
+  {
+    src: "",
+    alt: "A courtyard open to the sky at midday",
+    aspect: "4 / 5",
+    tone: "stone",
+  },
+  {
+    src: "",
+    alt: "Morning light falling across a teak dining table",
+    aspect: "4 / 5",
+    tone: "linen",
+  },
+  {
+    src: "",
+    alt: "Afternoon light on a blank lime-plastered living room wall",
+    aspect: "3 / 5",
+    tone: "oak",
+  },
+  {
+    src: "",
+    alt: "A west-facing bedroom shaded against the late sun",
+    aspect: "4 / 5",
+    tone: "shade",
+  },
+];

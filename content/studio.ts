@@ -34,27 +34,62 @@ export const home = {
     ],
     link: { href: "/studio", label: "About the practice" },
   },
+  /* Paired by index with `homeSpaces` in lib/media.ts — same length, same
+     order. Each caption is about the light in that room, not the room. */
+  spaces: {
+    items: [
+      {
+        tag: "Courtyard",
+        caption: "Open to the sky, and to the rain when it comes.",
+      },
+      {
+        tag: "Dining",
+        caption: "Sited east, so breakfast happens in daylight.",
+      },
+      {
+        tag: "Living",
+        caption: "One long wall left blank for the afternoon.",
+      },
+      {
+        tag: "Bedroom",
+        caption: "Shaded west, for the hour before sleep.",
+      },
+    ],
+  },
   services: {
     label: "What we do",
     heading: "Four kinds of work",
+    /* All four cards link to the same page, so each carries a suffix that is
+       read out but not shown — otherwise a screen reader's link list is four
+       identical entries. */
+    link: { href: "/contact", label: "Enquire" },
     items: [
       {
         title: "Residential",
         body: "Whole houses and apartments, from the plan to the last door pull.",
+        enquiry: "about residential work",
       },
       {
         title: "Restoration",
         body: "Older houses brought back into use without being turned into replicas of themselves.",
+        enquiry: "about a restoration",
       },
       {
         title: "Hospitality",
         body: "Small hotels, estates and guest houses, usually well outside a city.",
+        enquiry: "about a hospitality project",
       },
       {
         title: "Furniture",
         body: "Free-standing pieces, made with the same workshops we build the houses with.",
+        enquiry: "about furniture",
       },
     ],
+  },
+  work: {
+    label: "Selected work",
+    heading: "Six projects from the last three years",
+    link: { href: "/projects", label: "All projects" },
   },
   cta: {
     heading: "Tell us about the house",

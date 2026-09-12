@@ -346,6 +346,3 @@ export const projects: Project[] = [
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
 }
-
-/** Home page shows the three most recent. */
-export const selectedProjects = projects.slice(0, 3);
