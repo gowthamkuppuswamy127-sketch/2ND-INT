@@ -89,12 +89,6 @@ export const siteMedia = {
     aspect: "1 / 1",
     tone: "oak",
   },
-  homeServices: {
-    src: "",
-    alt: "Brass hardware detail on a teak cabinet door",
-    aspect: "3 / 2",
-    tone: "brass",
-  },
   homeFeatureBand: {
     src: "",
     alt: "A reopened courtyard, seen from the veranda that once enclosed it",
@@ -186,6 +180,38 @@ export const homeProcess: MediaSlot[] = [
     alt: "A workshop drawing pinned up beside the piece it describes",
     aspect: "4 / 3",
     tone: "linen",
+  },
+];
+
+/**
+ * One photo per entry in `home.services.items`, same length and order —
+ * the panel the services accordion swaps to when its matching row is
+ * hovered or focused.
+ */
+export const homeServicePanels: MediaSlot[] = [
+  {
+    src: "",
+    alt: "A finished residence, seen from the doorway of its main room",
+    aspect: "4 / 3",
+    tone: "linen",
+  },
+  {
+    src: "",
+    alt: "A restored veranda, the old and new timber left visibly distinct",
+    aspect: "4 / 3",
+    tone: "shade",
+  },
+  {
+    src: "",
+    alt: "A guest room in a small estate hotel, mid-afternoon",
+    aspect: "4 / 3",
+    tone: "stone",
+  },
+  {
+    src: "",
+    alt: "A free-standing teak cabinet under construction in the workshop",
+    aspect: "4 / 3",
+    tone: "oak",
   },
 ];
 

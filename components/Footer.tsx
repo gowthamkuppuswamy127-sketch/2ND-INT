@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 md:px-10 md:py-20">
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
-            <p className="font-display text-xl font-semibold uppercase leading-none tracking-[0.2em]">
+            <p className="font-display text-xl uppercase leading-none tracking-[0.2em]">
               Nilayaa
             </p>
             <p className="mt-5 max-w-[34ch] text-[0.9375rem] leading-relaxed text-page/80">

@@ -24,7 +24,7 @@
 
   --color-rule: #e3e3e8;
 
-  --font-display: var(--font-instrument);
+  --font-display: var(--font-cal);
   --font-body: var(--font-golos);
 
   /* Spacious scale — density dial 2/10 */
@@ -46,6 +46,12 @@
     line-height: 1.7;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
+    /* Several sections deliberately bleed past their own shell (the project
+       carousel's peek-past-the-edge cards, the gallery marquee's full-width
+       strips). Each is independently contained by its own overflow rule, but
+       this is the backstop: whatever the exact cause, the page itself must
+       never gain real horizontal scroll from it. */
+    overflow-x: hidden;
   }
 
   ::selection {
@@ -62,11 +68,14 @@
     border-radius: 1px;
   }
 
+  /* Cal Sans ships one weight (400) — see layout.tsx. Every display style
+     below is pinned to it explicitly so nothing here ever asks the browser
+     for a weight that isn't loaded. */
   h1,
   h2,
   h3 {
     font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.015em;
     color: var(--color-ink);
@@ -79,7 +88,7 @@
     font-size: clamp(2.75rem, 6.4vw, 5.25rem);
     line-height: 1.04;
     letter-spacing: -0.02em;
-    font-weight: 600;
+    font-weight: 400;
   }
 
   .display-section {
@@ -87,7 +96,7 @@
     font-size: clamp(1.875rem, 3.6vw, 3.125rem);
     line-height: 1.1;
     letter-spacing: -0.015em;
-    font-weight: 600;
+    font-weight: 400;
   }
 
   .display-sm {
@@ -95,7 +104,18 @@
     font-size: clamp(1.125rem, 1.9vw, 1.375rem);
     line-height: 1.28;
     letter-spacing: -0.01em;
-    font-weight: 600;
+    font-weight: 400;
+  }
+
+  /* A huge, near-invisible number sat behind a card's own content — the
+     source site's recurring "ghost numeral" device on process/service
+     steps. Decorative, so it's set with aria-hidden at the call site. */
+  .ghost-number {
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    color: currentColor;
+    opacity: 0.06;
   }
 
   /* The metadata voice of the whole site: eyebrows, eq numbers, meta tags.
@@ -227,6 +247,35 @@
 
 .animate-cue {
   animation: cue-nudge 2200ms ease-in-out infinite;
+}
+
+/* Two continuous-scroll galleries move opposite directions — each strip is
+   its own list rendered twice back-to-back, translated exactly -50% so the
+   seam between the real copy and its repeat is invisible. Paused on hover so
+   a caption or the images themselves can actually be looked at. */
+@keyframes marquee-left {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-left 46s linear infinite;
+}
+
+.marquee-track[data-direction="right"] {
+  animation-name: marquee-right;
+}
+
+.marquee-row:hover .marquee-track,
+.marquee-row:focus-within .marquee-track {
+  animation-play-state: paused;
 }
 
 /* Reveal-on-scroll. The hidden state is scoped to `.js`, which is set

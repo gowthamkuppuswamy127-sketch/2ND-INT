@@ -155,6 +155,15 @@ export default function ProjectCarousel({
                     sizes="(min-width: 1024px) 24rem, (min-width: 640px) 48vw, 82vw"
                     zoom
                   >
+                    {/* Decorative: the project's own heading below already
+                        states its typology in the label row. */}
+                    <span
+                      aria-hidden="true"
+                      className="label pointer-events-none absolute left-4 top-4 bg-page/90 px-2.5 py-1.5 text-ink"
+                    >
+                      {project.typology}
+                    </span>
+
                     {/* Decorative: the link already announces the project. */}
                     <span
                       aria-hidden="true"

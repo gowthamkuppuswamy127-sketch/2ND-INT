@@ -61,7 +61,7 @@ export default function Header() {
         <Link
           href="/"
           aria-label={`${site.name}, home`}
-          className={`font-display text-lg font-semibold leading-none tracking-tight transition-colors sm:text-xl ${
+          className={`font-display text-lg leading-none tracking-tight transition-colors sm:text-xl ${
             overlay ? "text-page" : "text-ink"
           }`}
         >

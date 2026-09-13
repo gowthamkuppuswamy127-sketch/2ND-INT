@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import { Golos_Text, Instrument_Sans } from "next/font/google";
+import { Cal_Sans, Golos_Text } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollChrome from "@/components/ScrollChrome";
 import "./globals.css";
 
-// The brief specified Cal Sans, which isn't distributed through Google
-// Fonts (next/font's only reachable source here) — Instrument Sans is the
-// closest-spirited stand-in: a confident, tight geometric grotesk with the
-// same restrained character at display sizes.
-const instrument = Instrument_Sans({
+// Cal Sans ships through next/font/google as a single 400 weight — verified
+// directly against this Next.js install's own font-data.json rather than
+// assumed, since it isn't a font most people have heard of. Every display
+// style in globals.css is set to weight 400 to match: requesting a heavier
+// weight next/font hasn't fetched would fall back to the browser's own
+// synthetic bold, which Cal Sans's own source site deliberately never uses.
+const cal = Cal_Sans({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-instrument",
+  weight: ["400"],
+  variable: "--font-cal",
   display: "swap",
 });
 
@@ -41,7 +44,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${instrument.variable} ${golos.variable}`}>
+    <html lang="en" className={`${cal.variable} ${golos.variable}`}>
       <body className="bg-page text-ink-muted antialiased">
         {/* Runs before body paints. Scroll reveals stay hidden only when JS can
             actually reveal them — see the `.js [data-reveal]` rule. */}
@@ -56,6 +59,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <ScrollChrome />
         <Header />
         <main id="main">{children}</main>
         <Footer />

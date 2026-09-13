@@ -1,5 +1,6 @@
 import Link from "next/link";
 import FeatureBand from "@/components/FeatureBand";
+import GalleryMarquee from "@/components/GalleryMarquee";
 import Hero from "@/components/Hero";
 import MediaFrame from "@/components/MediaFrame";
 import ProcessGrid from "@/components/ProcessGrid";
@@ -75,29 +76,12 @@ export default function HomePage() {
             </div>
           </Reveal>
 
-          <div className="mt-14 grid gap-12 md:mt-16 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
-            <Reveal direction="left">
-              <MediaFrame
-                slot={siteMedia.homeServices}
-                sizes="(min-width: 1024px) 38vw, 100vw"
-                zoom
-              >
-                <div className="absolute inset-x-4 bottom-4 bg-page/95 p-4 sm:inset-x-6 sm:bottom-6 sm:p-5">
-                  <p className="text-[0.9375rem] leading-relaxed text-ink">
-                    Considered spaces, planned around how the house is
-                    actually used.
-                  </p>
-                </div>
-              </MediaFrame>
-            </Reveal>
+          <div className="mt-14 md:mt-16">
+            <ServiceList />
+          </div>
 
-            <Reveal delay={120} direction="right">
-              <ServiceList />
-
-              <div className="mt-14 border-t border-rule pt-12 md:mt-16">
-                <StatsRow items={stats} />
-              </div>
-            </Reveal>
+          <div className="mt-14 border-t border-rule pt-12 md:mt-16">
+            <StatsRow items={stats} />
           </div>
         </div>
       </section>
@@ -125,20 +109,22 @@ export default function HomePage() {
       </section>
 
       <section className="bg-surface py-section-sm md:py-section">
-        <ProjectCarousel projects={projects}>
-          <p className="label">{home.work.label}</p>
-          <h2 className="display-section mt-5 max-w-[32rem]">
-            {home.work.heading}
-          </h2>
-        </ProjectCarousel>
+        <div className="shell">
+          <ProjectCarousel projects={projects}>
+            <p className="label">{home.work.label}</p>
+            <h2 className="display-section mt-5 max-w-[32rem]">
+              {home.work.heading}
+            </h2>
+          </ProjectCarousel>
 
-        <Reveal>
-          <div className="mt-14 text-center md:mt-16">
-            <Link href={home.work.link.href} className="label btn-solid">
-              {home.work.link.label}
-            </Link>
-          </div>
-        </Reveal>
+          <Reveal>
+            <div className="mt-14 text-center md:mt-16">
+              <Link href={home.work.link.href} className="label btn-solid">
+                {home.work.link.label}
+              </Link>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       <Reveal>
@@ -191,6 +177,21 @@ export default function HomePage() {
 
         <div className="mt-14 md:mt-16">
           <TeamGrid />
+        </div>
+      </section>
+
+      <section className="py-section-sm md:py-section">
+        <Reveal>
+          <div className="shell">
+            <p className="label">Gallery</p>
+            <h2 className="display-section mt-5 max-w-[20ch]">
+              A closer look at the work
+            </h2>
+          </div>
+        </Reveal>
+
+        <div className="mt-12 md:mt-14">
+          <GalleryMarquee />
         </div>
       </section>
     </>
