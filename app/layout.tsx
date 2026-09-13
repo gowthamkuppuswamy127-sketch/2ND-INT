@@ -44,10 +44,21 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${cal.variable} ${golos.variable}`}>
+    <html
+      lang="en"
+      className={`${cal.variable} ${golos.variable}`}
+      suppressHydrationWarning
+    >
       <body className="bg-page text-ink-muted antialiased">
         {/* Runs before body paints. Scroll reveals stay hidden only when JS can
-            actually reveal them — see the `.js [data-reveal]` rule. */}
+            actually reveal them — see the `.js [data-reveal]` rule. The inline
+            script below adds that class straight to the DOM before hydration,
+            which is exactly the mismatch `suppressHydrationWarning` above is
+            for (node_modules/next/dist/docs/01-app/02-guides/
+            preventing-flash-before-hydration.md): without it, React discarded
+            the class and re-rendered the whole tree from the root to recover
+            on every load, which is what was surfacing as the carousel's
+            transient layout glitches. */}
         <script
           dangerouslySetInnerHTML={{
             __html: `document.documentElement.classList.add('js')`,
