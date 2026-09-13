@@ -2,28 +2,30 @@
 
 /* ---------------------------------------------------------------
    Nilayaa Interiors — design tokens
-   Palette is warm-stone & ink. Contrast is measured, not guessed:
-     ink   on page    16.70:1   body OK
-     ink   on surface 15.29:1   body OK
-     muted on page     5.30:1   body OK
-     muted on surface  4.86:1   body OK
-     brass on ink      5.48:1   body OK
-     brass on page     3.05:1   LARGE TEXT ONLY (>=24px / >=18.66px bold)
-     brass on surface  2.79:1   NEVER text. Rules and marks only.
+   Palette is neutral stone-grey & ink, with a muted clay-brass accent.
+   Contrast is measured, not guessed:
+     ink    on page     15.76:1   body OK
+     ink    on surface  17.03:1   body OK
+     muted  on page      6.52:1   body OK
+     muted  on surface   7.05:1   body OK
+     brass  on page       4.84:1   body OK (>=14px)
+     brass  on surface    5.24:1   body OK (>=14px)
+     brass  on ink        3.25:1   LARGE TEXT ONLY (>=24px / >=18.66px bold)
+     page   on brass      4.84:1   body OK — the solid-button-on-brass case
    --------------------------------------------------------------- */
 
 @theme {
-  --color-page: #f5f1ea;
-  --color-surface: #ede7dd;
-  --color-ink: #14110f;
-  --color-ink-muted: #6b6259;
-  --color-brass: #a8845c;
+  --color-page: #f6f6f6;
+  --color-surface: #ffffff;
+  --color-ink: #1c1c1d;
+  --color-ink-muted: #59585d;
+  --color-brass: #826752;
+  --color-lighter: #9f9fa4;
 
-  --color-rule: rgb(20 17 15 / 0.14);
-  --color-rule-brass: rgb(168 132 92 / 0.4);
+  --color-rule: #e3e3e8;
 
-  --font-display: var(--font-cinzel);
-  --font-body: var(--font-josefin);
+  --font-display: var(--font-instrument);
+  --font-body: var(--font-golos);
 
   /* Spacious scale — density dial 2/10 */
   --spacing-section: 7.5rem;
@@ -33,14 +35,13 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
   }
 
   body {
     background-color: var(--color-page);
-    color: var(--color-ink);
+    color: var(--color-ink-muted);
     font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-    /* Josefin Sans has an unusually small x-height — 17px base and a tall
-       leading keep it legible. Do not drop this to 16px. */
     font-size: 17px;
     line-height: 1.7;
     font-weight: 400;
@@ -52,8 +53,9 @@
     color: var(--color-page);
   }
 
-  /* Ink ring, not brass: brass sits at 3.05:1 which is too marginal for a
-     focus indicator. Ink gives an unambiguous 16.7:1 on either light ground. */
+  /* Ink ring, not brass: brass on page is 4.84:1, comfortably legible as
+     text, but a 1px focus ring reads thin — ink gives an unambiguous
+     15.76:1 on either light ground. */
   :focus-visible {
     outline: 2px solid var(--color-ink);
     outline-offset: 3px;
@@ -63,53 +65,51 @@
   h1,
   h2,
   h3 {
-    font-family: var(--font-display), ui-serif, Georgia, serif;
-    font-weight: 400;
-    /* All-caps has no descenders, so normal leading opens gaps. */
-    line-height: 1.08;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--color-ink);
   }
 }
 
 @layer components {
-  /* Cinzel is caps-by-design. Used only for short strings — never body. */
   .display-hero {
-    font-family: var(--font-display), ui-serif, Georgia, serif;
-    font-size: clamp(2.25rem, 6.5vw, 5rem);
-    line-height: 1.05;
-    letter-spacing: 0.005em;
-    text-transform: uppercase;
-    font-weight: 400;
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(2.75rem, 6.4vw, 5.25rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    font-weight: 600;
   }
 
   .display-section {
-    font-family: var(--font-display), ui-serif, Georgia, serif;
-    font-size: clamp(1.5rem, 3.2vw, 2.5rem);
-    line-height: 1.12;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    font-weight: 400;
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(1.875rem, 3.6vw, 3.125rem);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    font-weight: 600;
   }
 
   .display-sm {
-    font-family: var(--font-display), ui-serif, Georgia, serif;
-    font-size: clamp(1.125rem, 1.8vw, 1.375rem);
-    line-height: 1.2;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-weight: 500;
+    font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(1.125rem, 1.9vw, 1.375rem);
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+    font-weight: 600;
   }
 
-  /* Josefin, wide-tracked caps. The metadata voice of the whole site. */
+  /* The metadata voice of the whole site: eyebrows, eq numbers, meta tags.
+     Brass by default — call sites that need a different colour (nav links,
+     buttons) carry their own utility, which wins: components-layer colour
+     always loses to a utilities-layer one in the cascade. */
   .label {
     font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
     font-size: 0.75rem;
     line-height: 1.4;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-weight: 500;
-    color: var(--color-ink-muted);
+    font-weight: 600;
+    color: var(--color-brass);
   }
 
   .prose-measure {
@@ -149,9 +149,10 @@
     background-size: 100% 1px;
   }
 
-  /* The page's action beats. Declared after .label so it can carry the label
-     typography and still win the colour. Hover inverts rather than tinting:
-     page-coloured text on brass is 3.05:1, which small caps cannot use. */
+  /* The page's action beats. Hover inverts rather than tinting: page-
+     coloured text on brass is a hair under body-text AA, ink text on page
+     is not, so inverting to an ink outline keeps every state comfortably
+     legible. */
   .btn-solid {
     display: inline-block;
     border: 1px solid var(--color-ink);
@@ -160,12 +161,31 @@
     padding: 1rem 2rem;
     transition:
       background-color 300ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+      color 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .btn-solid:hover,
   .btn-solid:focus-visible {
     background-color: transparent;
+    color: var(--color-ink);
+  }
+
+  .btn-outline {
+    display: inline-block;
+    border: 1px solid var(--color-page);
+    color: var(--color-page);
+    padding: 1rem 2rem;
+    transition:
+      background-color 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 300ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .btn-outline:hover,
+  .btn-outline:focus-visible {
+    border-color: var(--color-page);
+    background-color: var(--color-page);
     color: var(--color-ink);
   }
 
@@ -193,12 +213,30 @@
   }
 }
 
+/* The scroll-cue at the foot of the hero: a slow, continuous nudge rather
+   than a bounce — this is a passive affordance, not an alert. */
+@keyframes cue-nudge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.animate-cue {
+  animation: cue-nudge 2200ms ease-in-out infinite;
+}
+
 /* Reveal-on-scroll. The hidden state is scoped to `.js`, which is set
    synchronously in <head>. Without JavaScript the class never lands and every
-   revealed block renders normally, so content can't be trapped at opacity 0. */
+   revealed block renders normally, so content can't be trapped at opacity 0.
+   Direction is set per-instance via --reveal-x/--reveal-y (see Reveal.tsx);
+   undeclared, both default to a plain upward drift. */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translate(var(--reveal-x, 0), var(--reveal-y, 14px));
   transition:
     opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -209,9 +247,9 @@
   transform: none;
 }
 
-/* Same contract as the reveals above: the carousel arrows only do anything
-   once JavaScript is running, so without it they never appear. The strip
-   itself still scrolls natively. */
+/* Same contract as the reveals above: the carousel arrows and the media
+   hover-zoom only do anything once JavaScript/hover is meaningfully
+   available; the strips themselves still scroll natively. */
 html:not(.js) [data-carousel-controls] {
   display: none;
 }

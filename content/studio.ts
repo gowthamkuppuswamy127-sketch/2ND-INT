@@ -9,6 +9,7 @@ export const site = {
   name: "Nilayaa Interiors",
   shortName: "Nilayaa",
   tagline: "Interior design studio — Karaikudi & Chennai",
+  foundedYear: 2016,
 };
 
 export const nav = [
@@ -90,6 +91,95 @@ export const home = {
     label: "Selected work",
     heading: "Six projects from the last three years",
     link: { href: "/projects", label: "All projects" },
+  },
+  /* Paired with `site.foundedYear` at the call site, which computes the
+     one stat — years in practice — that shouldn't be hand-typed and left
+     to go stale. The other three are grounded in real, structural facts
+     elsewhere in this file: team size (studio.team) and studio count
+     (contact.studios.length) rather than invented round numbers. */
+  stats: {
+    items: [
+      { value: "35+", label: "Projects completed" },
+      { value: "8", label: "People in the studio" },
+      { value: "2", label: "Studios — Karaikudi & Chennai" },
+    ],
+  },
+  featureBand: {
+    label: "Why Nilayaa",
+    heading: "Old houses, opened back up",
+    body: "Most of what we do is subtraction — removing what decades of small renovations added, then building back only what the house actually needs.",
+    points: [
+      "Working since 2016",
+      "Remove before adding",
+      "Materials that age, not just finishes",
+      "One designer, first visit to handover",
+    ],
+    link: { href: "/studio", label: "About the practice" },
+  },
+  process: {
+    link: { href: "/studio", label: "The full process" },
+  },
+  /**
+   * Sample pull-quotes, in the shape real client feedback would take —
+   * first name and project only, no surnames or photographs invented.
+   * Replace with actual testimonials, attributed with permission, before
+   * launch.
+   */
+  testimonials: {
+    label: "Client feedback",
+    heading: "What it's like to work with the studio",
+    /* Sample, same as the quotes below — replace once there's enough real
+       feedback to average. */
+    rating: { value: "4.9", of: "5", label: "Average across recent projects" },
+    items: [
+      {
+        quote:
+          "They spent a full day in the house before drawing anything. By the time the proposal came, it already felt like ours.",
+        name: "Meera",
+        detail: "Residence, Karaikudi",
+      },
+      {
+        quote:
+          "We asked for the courtyard back and expected a compromise. They gave us four of them.",
+        name: "Arjun",
+        detail: "Restoration, Karaikudi",
+      },
+      {
+        quote:
+          "Two flats became one home and you would never know where the wall used to be.",
+        name: "Divya",
+        detail: "Residence, Chennai",
+      },
+      {
+        quote:
+          "Weekly site visits, no surprises at handover. The budget we agreed on in month one held.",
+        name: "Ramesh",
+        detail: "Hospitality, Munnar",
+      },
+    ],
+  },
+  /**
+   * Role placeholders, not individual bios — the studio hasn't supplied
+   * names or portraits yet. Swap in real people (and drop the tonal-field
+   * portraits for photographs) before launch.
+   */
+  experts: {
+    label: "The team",
+    heading: "Eight people, on every project",
+    roles: [
+      {
+        title: "Principal Designer",
+        body: "On the first visit, and every one after, until handover.",
+      },
+      {
+        title: "Site Lead",
+        body: "On site weekly from groundbreaking to snagging list.",
+      },
+      {
+        title: "Workshop Lead",
+        body: "Runs the joinery and metalwork the studio builds in-house.",
+      },
+    ],
   },
   cta: {
     heading: "Tell us about the house",

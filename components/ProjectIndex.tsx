@@ -48,6 +48,7 @@ export default function ProjectIndex({ projects }: { projects: Project[] }) {
                 <MediaFrame
                   slot={project.cover}
                   sizes="(min-width: 640px) 90vw, 100vw"
+                  zoom
                 />
               </div>
             </Link>

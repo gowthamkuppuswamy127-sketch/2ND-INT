@@ -95,10 +95,18 @@ export const siteMedia = {
     aspect: "3 / 2",
     tone: "brass",
   },
-  homeServicesRoom: {
+  homeFeatureBand: {
     src: "",
-    alt: "A living room in late light, seen from the doorway",
-    aspect: "3 / 2",
+    alt: "A reopened courtyard, seen from the veranda that once enclosed it",
+    aspect: "4 / 5",
+    tone: "shade",
+  },
+  /* A wide, quiet breathing-room strip between the project carousel and the
+     testimonials — no heading, no caption, just one more finished room. */
+  homeBand: {
+    src: "",
+    alt: "A finished living room in late afternoon light",
+    aspect: "21 / 9",
     tone: "linen",
   },
   studioPortrait: {
@@ -153,5 +161,55 @@ export const homeSpaces: MediaSlot[] = [
     alt: "A west-facing bedroom shaded against the late sun",
     aspect: "4 / 5",
     tone: "shade",
+  },
+];
+
+/**
+ * Photography for the two photo cells in <ProcessGrid> (steps 1 and 3 of
+ * the homepage's four-step teaser — the other two are text-only cells).
+ */
+export const homeProcess: MediaSlot[] = [
+  {
+    src: "",
+    alt: "A first visit — measuring a room before anything is drawn",
+    aspect: "4 / 3",
+    tone: "stone",
+  },
+  {
+    src: "",
+    alt: "A materials board of lime, teak, stone and brass samples",
+    aspect: "4 / 3",
+    tone: "oak",
+  },
+  {
+    src: "",
+    alt: "A workshop drawing pinned up beside the piece it describes",
+    aspect: "4 / 3",
+    tone: "linen",
+  },
+];
+
+/**
+ * Portrait slots for `home.experts.roles`, paired by index — same
+ * length, same order. Tonal fields stand in until real portraits exist.
+ */
+export const homeExperts: MediaSlot[] = [
+  {
+    src: "",
+    alt: "Portrait of the studio's principal designer",
+    aspect: "4 / 5",
+    tone: "linen",
+  },
+  {
+    src: "",
+    alt: "Portrait of the studio's site lead",
+    aspect: "4 / 5",
+    tone: "stone",
+  },
+  {
+    src: "",
+    alt: "Portrait of the studio's workshop lead",
+    aspect: "4 / 5",
+    tone: "oak",
   },
 ];

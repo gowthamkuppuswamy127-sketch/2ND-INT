@@ -1,20 +1,24 @@
 import type { Metadata } from "next";
-import { Cinzel, Josefin_Sans } from "next/font/google";
+import { Golos_Text, Instrument_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
-const cinzel = Cinzel({
+// The brief specified Cal Sans, which isn't distributed through Google
+// Fonts (next/font's only reachable source here) — Instrument Sans is the
+// closest-spirited stand-in: a confident, tight geometric grotesk with the
+// same restrained character at display sizes.
+const instrument = Instrument_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-cinzel",
+  weight: ["500", "600", "700"],
+  variable: "--font-instrument",
   display: "swap",
 });
 
-const josefin = Josefin_Sans({
+const golos = Golos_Text({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-josefin",
+  weight: ["400", "500", "600"],
+  variable: "--font-golos",
   display: "swap",
 });
 
@@ -37,8 +41,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${cinzel.variable} ${josefin.variable}`}>
-      <body className="bg-page text-ink antialiased">
+    <html lang="en" className={`${instrument.variable} ${golos.variable}`}>
+      <body className="bg-page text-ink-muted antialiased">
         {/* Runs before body paints. Scroll reveals stay hidden only when JS can
             actually reveal them — see the `.js [data-reveal]` rule. */}
         <script

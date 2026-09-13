@@ -55,11 +55,10 @@ export default function Hero() {
       <div className="absolute inset-0">
         {heroVideo.poster.src ? (
           // preload: this is the page's LCP element — a `<link>` goes in the
-          // `<head>` so the fetch starts immediately, the same intent as the
-          // `priority` prop used elsewhere in this codebase (MediaFrame), but
-          // spelled the way this Next.js version wants it: v16 deprecated
-          // `priority` in favor of this prop (node_modules/next/dist/docs/
-          // 01-app/03-api-reference/02-components/image.md).
+          // `<head>` so the fetch starts immediately. Same prop MediaFrame
+          // exposes for its own LCP case; v16 renamed it from `priority`
+          // (node_modules/next/dist/docs/01-app/03-api-reference/
+          // 02-components/image.md).
           <Image
             src={heroVideo.poster.src}
             alt={heroVideo.poster.alt}
@@ -101,10 +100,32 @@ export default function Hero() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to top, rgb(20 17 15 / 0.72) 0%, rgb(20 17 15 / 0.45) 38%, rgb(20 17 15 / 0.15) 72%, rgb(20 17 15 / 0.08) 100%)",
+              "linear-gradient(to top, rgb(28 28 29 / 0.72) 0%, rgb(28 28 29 / 0.45) 38%, rgb(28 28 29 / 0.15) 72%, rgb(28 28 29 / 0.08) 100%)",
           }}
         />
       </div>
+
+      {/* Scroll cue. An anchor, not a click handler — `scroll-behavior:
+          smooth` on <html> (globals.css) does the animating, and it's a
+          real link that still works with JS off or motion reduced. */}
+      <a
+        href="#intro"
+        aria-label="Scroll to learn more"
+        className="absolute inset-x-0 bottom-7 z-10 hidden animate-[hero-in_800ms_cubic-bezier(0.22,1,0.36,1)_520ms_both] justify-center sm:flex"
+      >
+        <span className="animate-cue flex size-12 items-center justify-center rounded-full border border-page/45 text-page transition-colors duration-300 hover:border-page hover:bg-page hover:text-ink">
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            className="size-4"
+          >
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </span>
+      </a>
 
       <div className="relative mx-auto w-full max-w-[80rem] px-5 pb-16 pt-32 sm:px-8 md:px-10 md:pb-24 md:pt-40">
         <p className="label animate-[hero-in_800ms_cubic-bezier(0.22,1,0.36,1)_both] text-page/75">

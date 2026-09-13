@@ -153,6 +153,7 @@ export default function ProjectCarousel({
                   <MediaFrame
                     slot={{ ...project.cover, aspect: card.aspect }}
                     sizes="(min-width: 1024px) 24rem, (min-width: 640px) 48vw, 82vw"
+                    zoom
                   >
                     {/* Decorative: the link already announces the project. */}
                     <span

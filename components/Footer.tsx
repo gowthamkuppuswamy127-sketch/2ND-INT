@@ -3,14 +3,14 @@ import { contact, nav, site } from "@/content/studio";
 
 export default function Footer() {
   return (
-    /* Ink ground. Brass reaches 5.48:1 here, so it can carry text — which it
-       cannot do on either light ground. */
+    /* Ink ground. Brass drops to 3.25:1 here — large text/icons only, never
+       small caps — so labels use `lighter` instead, which clears 6.46:1. */
     /* No top margin: every page already ends with its own section padding. */
     <footer className="bg-ink text-page">
       <div className="mx-auto max-w-[80rem] px-5 py-16 sm:px-8 md:px-10 md:py-20">
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
-            <p className="font-display text-xl uppercase leading-none tracking-[0.24em]">
+            <p className="font-display text-xl font-semibold uppercase leading-none tracking-[0.2em]">
               Nilayaa
             </p>
             <p className="mt-5 max-w-[34ch] text-[0.9375rem] leading-relaxed text-page/80">
@@ -20,7 +20,7 @@ export default function Footer() {
           </div>
 
           <nav aria-label="Footer">
-            <p className="label text-brass">Pages</p>
+            <p className="label text-lighter">Pages</p>
             <ul className="mt-4 space-y-2">
               {nav.map((item) => (
                 <li key={item.href}>
@@ -36,7 +36,7 @@ export default function Footer() {
           </nav>
 
           <div>
-            <p className="label text-brass">Studio</p>
+            <p className="label text-lighter">Studio</p>
             <ul className="mt-4 space-y-2 text-[0.9375rem]">
               <li>
                 <a

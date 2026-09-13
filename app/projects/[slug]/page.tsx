@@ -55,7 +55,7 @@ export default async function ProjectPage({ params }: Params) {
       <div className="shell mt-14 md:mt-20">
         <MediaFrame
           slot={{ ...project.cover, aspect: "16 / 9" }}
-          priority
+          preload
           sizes="100vw"
         />
       </div>

@@ -1,51 +1,38 @@
 import Link from "next/link";
+import FeatureBand from "@/components/FeatureBand";
 import Hero from "@/components/Hero";
 import MediaFrame from "@/components/MediaFrame";
+import ProcessGrid from "@/components/ProcessGrid";
 import ProjectCarousel from "@/components/ProjectCarousel";
 import Reveal from "@/components/Reveal";
+import ServiceList from "@/components/ServiceList";
 import SpaceStrip from "@/components/SpaceStrip";
+import StatsRow from "@/components/StatsRow";
+import TeamGrid from "@/components/TeamGrid";
+import Testimonials from "@/components/Testimonials";
 import { projects } from "@/content/projects";
-import { home } from "@/content/studio";
+import { home, site, studio } from "@/content/studio";
 import { siteMedia } from "@/lib/media";
 
-type Service = (typeof home.services.items)[number];
-
-/** One cell of the services grid. Sized by the grid, so it fills its row. */
-function ServiceCard({ item, index }: { item: Service; index: number }) {
-  return (
-    <Reveal delay={index * 80} className="h-full">
-      <div className="flex h-full flex-col border border-rule bg-page p-7 md:p-8">
-        <div className="flex items-baseline gap-4">
-          <p className="label shrink-0 tabular-nums">
-            /{String(index + 1).padStart(2, "0")}
-          </p>
-          <h3 className="display-sm">{item.title}</h3>
-        </div>
-
-        <p className="mt-5 border-t border-rule pt-5 text-[0.9375rem] leading-relaxed text-ink-muted">
-          {item.body}
-        </p>
-
-        <Link
-          href={home.services.link.href}
-          className="label link-underline mt-auto self-start pt-8 text-ink"
-        >
-          {home.services.link.label}
-          <span className="sr-only"> {item.enquiry}</span>
-        </Link>
-      </div>
-    </Reveal>
-  );
-}
-
 export default function HomePage() {
-  const services = home.services.items;
+  // Computed, not hand-typed, so it doesn't go stale — same reasoning as
+  // the footer's copyright year.
+  const stats = [
+    {
+      value: `${new Date().getFullYear() - site.foundedYear}+`,
+      label: "Years in practice",
+    },
+    ...home.stats.items,
+  ];
 
   return (
     <>
       <Hero />
 
-      <section className="shell py-section-sm md:py-section">
+      <section
+        id="intro"
+        className="shell scroll-mt-24 py-section-sm md:py-section"
+      >
         <Reveal>
           <div className="flex flex-wrap items-start justify-between gap-x-10 gap-y-8">
             <div>
@@ -77,55 +64,67 @@ export default function HomePage() {
         </div>
       </section>
 
+      <FeatureBand />
+
       <section className="bg-surface py-section-sm md:py-section">
         <div className="shell">
           <Reveal>
-            <div className="mx-auto max-w-[17rem] text-center">
+            <div className="max-w-[34rem]">
               <p className="label">{home.services.label}</p>
               <h2 className="display-section mt-5">{home.services.heading}</h2>
             </div>
           </Reveal>
 
-          {/* Three columns with a photograph on the end of the first row and
-              the start of the second, so the plates sit diagonally across the
-              grid rather than in a column of their own. */}
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 md:mt-16 md:grid-cols-3">
-            <ServiceCard item={services[0]} index={0} />
-            <ServiceCard item={services[1]} index={1} />
-
-            {/* Absolute inside a stretched cell, so the plate takes the row's
-                height. Left to size itself, its own aspect ratio would compute
-                a width from that height and push into the next column. The
-                min-height is for the stacked case, where the plate is alone in
-                its row and has nothing to be stretched against. */}
-            <Reveal delay={160} className="relative min-h-56">
-              <div className="absolute inset-0">
-                <MediaFrame
-                  slot={siteMedia.homeServices}
-                  className="h-full w-full"
-                  sizes="(min-width: 768px) 31vw, (min-width: 640px) 46vw, 100vw"
-                />
-              </div>
+          <div className="mt-14 grid gap-12 md:mt-16 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
+            <Reveal direction="left">
+              <MediaFrame
+                slot={siteMedia.homeServices}
+                sizes="(min-width: 1024px) 38vw, 100vw"
+                zoom
+              >
+                <div className="absolute inset-x-4 bottom-4 bg-page/95 p-4 sm:inset-x-6 sm:bottom-6 sm:p-5">
+                  <p className="text-[0.9375rem] leading-relaxed text-ink">
+                    Considered spaces, planned around how the house is
+                    actually used.
+                  </p>
+                </div>
+              </MediaFrame>
             </Reveal>
 
-            {/* Stacked, the two plates would land back to back. */}
-            <Reveal className="relative hidden min-h-56 sm:block">
-              <div className="absolute inset-0">
-                <MediaFrame
-                  slot={siteMedia.homeServicesRoom}
-                  className="h-full w-full"
-                  sizes="(min-width: 768px) 31vw, 46vw"
-                />
+            <Reveal delay={120} direction="right">
+              <ServiceList />
+
+              <div className="mt-14 border-t border-rule pt-12 md:mt-16">
+                <StatsRow items={stats} />
               </div>
             </Reveal>
-
-            <ServiceCard item={services[2]} index={2} />
-            <ServiceCard item={services[3]} index={3} />
           </div>
         </div>
       </section>
 
       <section className="shell py-section-sm md:py-section">
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
+            <div className="max-w-[34rem]">
+              <p className="label">{studio.process.label}</p>
+              <h2 className="display-section mt-5">{studio.process.heading}</h2>
+            </div>
+
+            <Link
+              href={home.process.link.href}
+              className="label link-underline shrink-0 text-ink"
+            >
+              {home.process.link.label}
+            </Link>
+          </div>
+        </Reveal>
+
+        <div className="mt-14 md:mt-16">
+          <ProcessGrid />
+        </div>
+      </section>
+
+      <section className="bg-surface py-section-sm md:py-section">
         <ProjectCarousel projects={projects}>
           <p className="label">{home.work.label}</p>
           <h2 className="display-section mt-5 max-w-[32rem]">
@@ -142,21 +141,56 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      <section className="bg-surface py-section-sm md:py-section">
-        <div className="shell">
+      <Reveal>
+        <MediaFrame
+          slot={siteMedia.homeBand}
+          sizes="100vw"
+          className="h-[34vh] min-h-64 md:h-[46vh]"
+        />
+      </Reveal>
+
+      <section className="shell py-section-sm md:py-section">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-20">
           <Reveal>
-            <div className="max-w-[52ch]">
-              <h2 className="display-section max-w-[16ch]">
-                {home.cta.heading}
-              </h2>
-              <p className="mt-7 leading-relaxed text-ink-muted">
-                {home.cta.body}
-              </p>
-              <Link href={home.cta.link.href} className="label btn-solid mt-10">
-                {home.cta.link.label}
-              </Link>
-            </div>
+            <p className="label">{home.testimonials.label}</p>
+            <h2 className="display-section mt-5 max-w-[14ch]">
+              {home.testimonials.heading}
+            </h2>
           </Reveal>
+
+          <Testimonials />
+        </div>
+      </section>
+
+      <section className="bg-surface py-section-sm text-center md:py-section">
+        <Reveal>
+          <div className="shell mx-auto max-w-[44rem]">
+            <h2 className="display-section mx-auto max-w-[20ch]">
+              {home.cta.heading}
+            </h2>
+            <p className="mx-auto mt-7 max-w-[50ch] leading-relaxed text-ink-muted">
+              {home.cta.body}
+            </p>
+            <Link
+              href={home.cta.link.href}
+              className="label btn-solid mt-10 inline-block"
+            >
+              {home.cta.link.label}
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
+      <section className="shell py-section-sm md:py-section">
+        <Reveal>
+          <div className="max-w-[40rem]">
+            <p className="label">{home.experts.label}</p>
+            <h2 className="display-section mt-5">{home.experts.heading}</h2>
+          </div>
+        </Reveal>
+
+        <div className="mt-14 md:mt-16">
+          <TeamGrid />
         </div>
       </section>
     </>

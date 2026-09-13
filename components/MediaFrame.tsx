@@ -3,10 +3,16 @@ import { TONE_FIELDS, type MediaSlot } from "@/lib/media";
 
 type Props = {
   slot: MediaSlot;
-  /** Set only on the single above-the-fold LCP image. */
-  priority?: boolean;
+  /** Set only on the single above-the-fold LCP image. Next.js 16 renamed
+      `priority` to `preload` (node_modules/next/dist/docs/01-app/
+      03-api-reference/02-components/image.md). */
+  preload?: boolean;
   sizes?: string;
   className?: string;
+  /** Scales the image slightly on hover/focus of the nearest ancestor
+      `.group`, or of this frame itself if nothing else claims that role.
+      For gallery and project plates — never the single LCP hero image. */
+  zoom?: boolean;
   /** Overlays drawn inside the frame — corner tags, hover marks. Positioned
       against the frame itself, which is the containing block. */
   children?: React.ReactNode;
@@ -19,14 +25,15 @@ type Props = {
  */
 export default function MediaFrame({
   slot,
-  priority = false,
+  preload = false,
   sizes = "(min-width: 1024px) 50vw, 100vw",
   className = "",
+  zoom = false,
   children,
 }: Props) {
   return (
     <div
-      className={`relative overflow-hidden bg-surface ${className}`}
+      className={`group/media relative overflow-hidden bg-surface ${className}`}
       style={{ aspectRatio: slot.aspect }}
     >
       {slot.src ? (
@@ -35,15 +42,25 @@ export default function MediaFrame({
           alt={slot.alt}
           fill
           sizes={sizes}
-          priority={priority}
-          className="object-cover"
+          preload={preload}
+          className={`object-cover ${
+            zoom
+              ? "transition-transform duration-[900ms] ease-out group-hover/media:scale-[1.06] group-hover:scale-[1.06] group-focus-visible:scale-[1.06]"
+              : ""
+          }`}
         />
       ) : (
         /* No photograph yet — decorative, so it stays out of the a11y tree
-           rather than announcing a description of an image that isn't there. */
+           rather than announcing a description of an image that isn't there.
+           Same hover-zoom as the photo case, so a placeholder plate reads no
+           differently from a finished one once real photography lands. */
         <div
           aria-hidden="true"
-          className="absolute inset-0"
+          className={`absolute inset-0 ${
+            zoom
+              ? "transition-transform duration-[900ms] ease-out group-hover/media:scale-[1.06] group-hover:scale-[1.06] group-focus-visible:scale-[1.06]"
+              : ""
+          }`}
           style={{ backgroundImage: TONE_FIELDS[slot.tone] }}
         />
       )}
