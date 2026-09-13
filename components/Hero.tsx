@@ -1,16 +1,56 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TONE_FIELDS, heroVideo } from "@/lib/media";
-import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { home } from "@/content/studio";
 
+// useLayoutEffect only on the client. This component is statically
+// prerendered, and React's server renderer warns on useLayoutEffect (it has
+// no DOM to run against) — the warning is dev-only and stripped in
+// production, but this keeps `next dev` clean too.
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 export default function Hero() {
-  const reducedMotion = usePrefersReducedMotion();
-  const playVideo = Boolean(heroVideo.src) && !reducedMotion;
+  const [videoFailed, setVideoFailed] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoConfigured = Boolean(heroVideo.src) && !videoFailed;
+
+  useIsomorphicLayoutEffect(() => {
+    const el = videoRef.current;
+    if (!el || !videoConfigured) return;
+
+    // Checked live here, not via a React-level reduced-motion hook: a hook
+    // backed by useSyncExternalStore has to assume motion is allowed on its
+    // first hydration pass (there's no OS preference on the server to read),
+    // then corrects itself in a later, separate render. This effect's first
+    // run happens as part of that same first pass, before the correction
+    // lands — so gating on the hook's value here would still start the
+    // fetch for a reduced-motion visitor before React catches up.
+    // window.matchMedia has no such lag: it's a direct, synchronous read of
+    // the real preference, correct from the first call.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // `src` is assigned here, never as a JSX attribute. This page is
+    // statically prerendered, so a `src` written into JSX ships already in
+    // the served HTML — the browser starts that fetch while still parsing,
+    // before any of this can run at all. Assigning it only here means the
+    // request never happens until we've confirmed motion is allowed, and
+    // this listener is always attached before it does.
+    const handleError = () => setVideoFailed(true);
+    el.addEventListener("error", handleError);
+    el.src = heroVideo.src;
+    el.load();
+
+    return () => el.removeEventListener("error", handleError);
+  }, [videoConfigured]);
 
   return (
-    <section className="relative flex min-h-[calc(100svh-5rem)] items-end overflow-hidden">
+    // Header floats over this as an absolute overlay on the home route, so it
+    // no longer reserves its own ~5rem of flow height — the hero fills the
+    // full viewport instead of svh-minus-header.
+    <section className="relative flex min-h-svh items-end overflow-hidden">
       <div className="absolute inset-0">
         {heroVideo.poster.src ? (
           /* eslint-disable-next-line @next/next/no-img-element */
@@ -27,9 +67,12 @@ export default function Hero() {
           />
         )}
 
-        {playVideo && (
+        {/* No src in JSX — see the effect above for why. An empty <video>
+            paints nothing, so the poster/tonal field beneath stays fully
+            visible until (and unless) the effect assigns a source. */}
+        {videoConfigured && (
           <video
-            src={heroVideo.src}
+            ref={videoRef}
             poster={heroVideo.poster.src || undefined}
             autoPlay
             muted
@@ -41,7 +84,8 @@ export default function Hero() {
         )}
 
         {/* Scrim. The headline sits bottom-left, so weight the gradient there
-            rather than flattening the whole frame. */}
+            rather than flattening the whole frame. Also what keeps the
+            transparent header's nav legible for the frame it floats over. */}
         <div
           aria-hidden="true"
           className="absolute inset-0"
@@ -52,7 +96,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="relative mx-auto w-full max-w-[80rem] px-5 pb-16 pt-28 sm:px-8 md:px-10 md:pb-24">
+      <div className="relative mx-auto w-full max-w-[80rem] px-5 pb-16 pt-32 sm:px-8 md:px-10 md:pb-24 md:pt-40">
         <p className="label animate-[hero-in_800ms_cubic-bezier(0.22,1,0.36,1)_both] text-page/75">
           {home.hero.eyebrow}
         </p>

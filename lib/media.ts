@@ -64,7 +64,11 @@ export const TONE_FIELDS: Record<Tone, string> = {
  * Leave `src` empty and the poster frame stands alone; the hero never breaks.
  */
 export const heroVideo: { src: string; poster: MediaSlot } = {
-  src: "",
+  // Wired to the file supplied for the hero. Drop it in at this exact path —
+  // public/a_Create_a_photorealis.mp4 — and it starts playing with no further
+  // code change; <Hero> already falls back to the poster/tonal field if this
+  // 404s, so nothing breaks in the meantime.
+  src: "/a_Create_a_photorealis.mp4",
   poster: {
     src: "",
     alt: "Morning light crossing a plastered wall in a Nilayaa interior",
