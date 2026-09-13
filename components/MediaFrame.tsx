@@ -33,7 +33,7 @@ export default function MediaFrame({
 }: Props) {
   return (
     <div
-      className={`group/media relative overflow-hidden bg-surface ${className}`}
+      className={`group/media relative w-full overflow-hidden bg-surface ${className}`}
       style={{ aspectRatio: slot.aspect }}
     >
       {slot.src ? (
