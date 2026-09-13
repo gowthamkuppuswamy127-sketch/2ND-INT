@@ -70,7 +70,12 @@ export const heroVideo: { src: string; poster: MediaSlot } = {
   // 404s, so nothing breaks in the meantime.
   src: "/a_Create_a_photorealis.mp4",
   poster: {
-    src: "",
+    // Extracted from the video's own first frame (`ffmpeg -i … -vframes 1`),
+    // not a separate photograph. That makes the poster pixel-identical to
+    // where the video actually starts, so there's no flash or tone-field
+    // placeholder before playback begins — just one continuous image that
+    // starts moving.
+    src: "/hero-poster.jpg",
     alt: "Morning light crossing a plastered wall in a Nilayaa interior",
     aspect: "16 / 9",
     tone: "stone",

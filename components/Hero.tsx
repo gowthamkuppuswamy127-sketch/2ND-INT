@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TONE_FIELDS, heroVideo } from "@/lib/media";
@@ -53,11 +54,19 @@ export default function Hero() {
     <section className="relative flex min-h-svh items-end overflow-hidden">
       <div className="absolute inset-0">
         {heroVideo.poster.src ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          // preload: this is the page's LCP element — a `<link>` goes in the
+          // `<head>` so the fetch starts immediately, the same intent as the
+          // `priority` prop used elsewhere in this codebase (MediaFrame), but
+          // spelled the way this Next.js version wants it: v16 deprecated
+          // `priority` in favor of this prop (node_modules/next/dist/docs/
+          // 01-app/03-api-reference/02-components/image.md).
+          <Image
             src={heroVideo.poster.src}
             alt={heroVideo.poster.alt}
-            className="h-full w-full object-cover"
+            fill
+            preload
+            sizes="100vw"
+            className="object-cover"
           />
         ) : (
           <div
@@ -74,6 +83,7 @@ export default function Hero() {
           <video
             ref={videoRef}
             poster={heroVideo.poster.src || undefined}
+            preload="auto"
             autoPlay
             muted
             loop
