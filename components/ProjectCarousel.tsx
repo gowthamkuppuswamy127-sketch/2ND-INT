@@ -8,14 +8,13 @@ import type { Project } from "@/content/projects";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 /**
- * Cards alternate between two sizes so the strip steps along rather than
- * tiling. The aspect overrides whatever the project's own cover carries,
- * because here the rhythm of the row matters more than the crop.
+ * A justified row, Google-Photos style: every card shares the same height,
+ * and its width falls out of its own cover photo's true aspect ratio rather
+ * than a fixed box the photo gets cropped to fit. A tall cover reads as a
+ * narrow card, a wide one as a broad card — the row's rhythm comes from that
+ * variation instead of from alternating fixed sizes.
  */
-const CARDS = [
-  { width: "w-[74vw] sm:w-[40vw] lg:w-[19rem]", aspect: "4 / 5" },
-  { width: "w-[82vw] sm:w-[48vw] lg:w-[24rem]", aspect: "4 / 3" },
-];
+const CARD_HEIGHT = "h-[70vw] sm:h-[38vw] lg:h-80";
 
 function Arrow({ back = false }: { back?: boolean }) {
   return (
@@ -138,42 +137,40 @@ export default function ProjectCarousel({
           onScroll={sync}
           className="no-scrollbar -my-2 -mr-5 flex snap-x snap-mandatory gap-5 overflow-x-auto py-2 sm:-mr-8 md:-mr-10"
         >
-          {projects.map((project, i) => {
-            const card = CARDS[i % CARDS.length];
-
+          {projects.map((project) => {
             return (
-              <li
-                key={project.slug}
-                className={`${card.width} shrink-0 snap-start`}
-              >
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="group block"
-                >
-                  <MediaFrame
-                    slot={{ ...project.cover, aspect: card.aspect }}
-                    sizes="(min-width: 1024px) 24rem, (min-width: 640px) 48vw, 82vw"
-                    zoom
+              <li key={project.slug} className="shrink-0 snap-start">
+                <Link href={`/projects/${project.slug}`} className="group block">
+                  <div
+                    style={{ aspectRatio: project.cover.aspect }}
+                    className={`relative ${CARD_HEIGHT}`}
                   >
-                    {/* Decorative: the project's own heading below already
-                        states its typology in the label row. */}
-                    <span
-                      aria-hidden="true"
-                      className="label pointer-events-none absolute left-4 top-4 bg-page/90 px-2.5 py-1.5 text-ink"
+                    <MediaFrame
+                      slot={project.cover}
+                      className="h-full"
+                      sizes="(min-width: 1024px) 40rem, (min-width: 640px) 70vw, 90vw"
+                      zoom
                     >
-                      {project.typology}
-                    </span>
-
-                    {/* Decorative: the link already announces the project. */}
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
-                    >
-                      <span className="label flex size-24 items-center justify-center rounded-full bg-page/90 text-ink">
-                        View
+                      {/* Decorative: the project's own heading below already
+                          states its typology in the label row. */}
+                      <span
+                        aria-hidden="true"
+                        className="label pointer-events-none absolute left-4 top-4 bg-page/90 px-2.5 py-1.5 text-ink"
+                      >
+                        {project.typology}
                       </span>
-                    </span>
-                  </MediaFrame>
+
+                      {/* Decorative: the link already announces the project. */}
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                      >
+                        <span className="label flex size-24 items-center justify-center rounded-full bg-page/90 text-ink">
+                          View
+                        </span>
+                      </span>
+                    </MediaFrame>
+                  </div>
 
                   <div className="mt-5 flex items-start justify-between gap-4">
                     <div>

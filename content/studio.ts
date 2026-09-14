@@ -40,16 +40,16 @@ export const home = {
   spaces: {
     items: [
       {
-        tag: "Courtyard",
-        caption: "Open to the sky, and to the rain when it comes.",
+        tag: "Kitchen",
+        caption: "Sited for morning light on the counter, not the evening sun.",
       },
       {
         tag: "Dining",
         caption: "Sited east, so breakfast happens in daylight.",
       },
       {
-        tag: "Living",
-        caption: "One long wall left blank for the afternoon.",
+        tag: "Bath",
+        caption: "Grey stone, chosen to look better wet than dry.",
       },
       {
         tag: "Bedroom",

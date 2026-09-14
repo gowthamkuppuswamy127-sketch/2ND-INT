@@ -73,6 +73,7 @@ export default function ProjectIndex({ projects }: { projects: Project[] }) {
                   slot={{ ...project.cover, aspect: "4 / 3" }}
                   sizes="45vw"
                   className="h-full"
+                  fit="contain"
                 />
               </div>
             ))}

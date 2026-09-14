@@ -53,11 +53,7 @@ export default async function ProjectPage({ params }: Params) {
       </header>
 
       <div className="shell mt-14 md:mt-20">
-        <MediaFrame
-          slot={{ ...project.cover, aspect: "16 / 9" }}
-          preload
-          sizes="100vw"
-        />
+        <MediaFrame slot={project.cover} preload sizes="100vw" />
       </div>
 
       <div className="shell mt-16 grid gap-14 md:mt-24 md:grid-cols-[1.4fr_1fr] md:gap-20">
@@ -104,9 +100,10 @@ export default async function ProjectPage({ params }: Params) {
 
       <div className="shell mt-20 grid gap-8 md:mt-28 md:grid-cols-2">
         {project.gallery.map((slot, i) => {
-          /* The lead plate runs full width, so it takes a landscape ratio
-             whatever the slot declares; the pair below share one ratio so
-             their bottom edges line up. */
+          /* The lead plate runs full width; each keeps its own true aspect
+             ratio rather than being cropped to match its neighbour, so the
+             pair below won't always share a bottom edge — expected in a
+             gallery of real, differently-shaped photographs. */
           const lead = i === 0;
 
           return (
@@ -116,7 +113,7 @@ export default async function ProjectPage({ params }: Params) {
               className={lead ? "md:col-span-2" : undefined}
             >
               <MediaFrame
-                slot={{ ...slot, aspect: lead ? "3 / 2" : "4 / 3" }}
+                slot={slot}
                 sizes={
                   lead
                     ? "(min-width: 768px) 90vw, 100vw"

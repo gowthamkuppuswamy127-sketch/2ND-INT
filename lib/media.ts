@@ -83,6 +83,8 @@ export const heroVideo: { src: string; poster: MediaSlot } = {
 };
 
 export const siteMedia = {
+  /* Not currently placed on the page — kept ready for whenever the intro
+     section grows a supporting image. */
   homePhilosophy: {
     src: "",
     alt: "A teak screen filtering afternoon light across a lime-plastered wall",
@@ -90,35 +92,35 @@ export const siteMedia = {
     tone: "oak",
   },
   homeFeatureBand: {
-    src: "",
-    alt: "A reopened courtyard, seen from the veranda that once enclosed it",
-    aspect: "4 / 5",
+    src: "/photos/bedroom-platform-dark.webp",
+    alt: "A bedroom finished in charcoal lacquer, with a floating stone-topped nightstand",
+    aspect: "795 / 1020",
     tone: "shade",
   },
   /* A wide, quiet breathing-room strip between the project carousel and the
      testimonials — no heading, no caption, just one more finished room. */
   homeBand: {
-    src: "",
-    alt: "A finished living room in late afternoon light",
-    aspect: "21 / 9",
+    src: "/photos/kitchen-marble-pantry.webp",
+    alt: "A finished kitchen in book-matched marble, the full width of the room",
+    aspect: "1280 / 576",
     tone: "linen",
   },
   studioPortrait: {
-    src: "",
-    alt: "The Nilayaa studio team reviewing drawings at a long teak table",
-    aspect: "4 / 5",
+    src: "/photos/study-wood-slat.webp",
+    alt: "A study finished in walnut-toned wood panelling, lit from one side",
+    aspect: "679 / 1020",
     tone: "linen",
   },
   studioWorkshop: {
-    src: "",
-    alt: "Material samples of stone, oak and brass laid out on a workbench",
-    aspect: "3 / 2",
+    src: "/photos/materials-stone-teak.webp",
+    alt: "Travertine stone, reclaimed wood and ceramic — the material palette the studio works in",
+    aspect: "1320 / 743",
     tone: "stone",
   },
   contactRoom: {
-    src: "",
-    alt: "The studio's reception room in late afternoon light",
-    aspect: "3 / 2",
+    src: "/photos/foyer-marble-shelf.webp",
+    alt: "A foyer in book-matched marble, with a backlit open teak shelving unit",
+    aspect: "1280 / 960",
     tone: "shade",
   },
 } satisfies Record<string, MediaSlot>;
@@ -133,27 +135,27 @@ export const siteMedia = {
  */
 export const homeSpaces: MediaSlot[] = [
   {
-    src: "",
-    alt: "A courtyard open to the sky at midday",
-    aspect: "4 / 5",
+    src: "/photos/kitchen-olive-green.webp",
+    alt: "Morning light on a glazed tile backsplash and olive cabinetry",
+    aspect: "1080 / 598",
     tone: "stone",
   },
   {
-    src: "",
-    alt: "Morning light falling across a teak dining table",
-    aspect: "4 / 5",
+    src: "/photos/dining-teak-crockery.webp",
+    alt: "A teak dining room, sited to catch the morning light",
+    aspect: "1280 / 852",
     tone: "linen",
   },
   {
-    src: "",
-    alt: "Afternoon light on a blank lime-plastered living room wall",
-    aspect: "3 / 5",
+    src: "/photos/bathroom-cream-tile.webp",
+    alt: "Grey stone tile, softened by steam and morning light",
+    aspect: "802 / 1020",
     tone: "oak",
   },
   {
-    src: "",
+    src: "/photos/bedroom-floral-blind.webp",
     alt: "A west-facing bedroom shaded against the late sun",
-    aspect: "4 / 5",
+    aspect: "679 / 1020",
     tone: "shade",
   },
 ];
@@ -164,21 +166,21 @@ export const homeSpaces: MediaSlot[] = [
  */
 export const homeProcess: MediaSlot[] = [
   {
-    src: "",
-    alt: "A first visit — measuring a room before anything is drawn",
-    aspect: "4 / 3",
+    src: "/photos/thumb-kitchen-construction.jpg",
+    alt: "An early site visit, before the kitchen walls are finished",
+    aspect: "141 / 118",
     tone: "stone",
   },
   {
-    src: "",
-    alt: "A materials board of lime, teak, stone and brass samples",
-    aspect: "4 / 3",
+    src: "/photos/thumb-wardrobe-construction.jpg",
+    alt: "Cabinetry going in during a first-fix site visit",
+    aspect: "141 / 118",
     tone: "oak",
   },
   {
-    src: "",
-    alt: "A workshop drawing pinned up beside the piece it describes",
-    aspect: "4 / 3",
+    src: "/photos/kitchen-render-design.webp",
+    alt: "A kitchen visualised before the cabinets were built",
+    aspect: "1080 / 864",
     tone: "linen",
   },
 ];
@@ -190,27 +192,27 @@ export const homeProcess: MediaSlot[] = [
  */
 export const homeServicePanels: MediaSlot[] = [
   {
-    src: "",
-    alt: "A finished residence, seen from the doorway of its main room",
-    aspect: "4 / 3",
+    src: "/photos/bedroom-sage-green.webp",
+    alt: "A finished bedroom, seen from the doorway of its main room",
+    aspect: "1280 / 821",
     tone: "linen",
   },
   {
-    src: "",
-    alt: "A restored veranda, the old and new timber left visibly distinct",
-    aspect: "4 / 3",
+    src: "/photos/thumb-wardrobe-bw.jpg",
+    alt: "Custom joinery finished in lacquer and walnut veneer",
+    aspect: "141 / 176",
     tone: "shade",
   },
   {
-    src: "",
-    alt: "A guest room in a small estate hotel, mid-afternoon",
-    aspect: "4 / 3",
+    src: "/photos/home-theatre-cream-a.webp",
+    alt: "A shared lounge, screening-room style",
+    aspect: "1280 / 960",
     tone: "stone",
   },
   {
-    src: "",
-    alt: "A free-standing teak cabinet under construction in the workshop",
-    aspect: "4 / 3",
+    src: "/photos/wardrobe-dresser-mirror.webp",
+    alt: "A dresser and wardrobe unit finished in ivory lacquer and oak",
+    aspect: "1 / 1",
     tone: "oak",
   },
 ];

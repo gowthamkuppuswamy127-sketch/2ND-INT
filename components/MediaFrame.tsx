@@ -13,6 +13,12 @@ type Props = {
       `.group`, or of this frame itself if nothing else claims that role.
       For gallery and project plates — never the single LCP hero image. */
   zoom?: boolean;
+  /** "cover" (default) fills the frame and crops to it — safe only when the
+      frame's own aspect ratio already matches the photo's. "contain" letter-
+      or pillar-boxes the photo instead, for the handful of frames that are
+      shared by many photos of different ratios (a hover-swapped preview
+      pane) and can't be sized to match every one of them. */
+  fit?: "cover" | "contain";
   /** Overlays drawn inside the frame — corner tags, hover marks. Positioned
       against the frame itself, which is the containing block. */
   children?: React.ReactNode;
@@ -29,6 +35,7 @@ export default function MediaFrame({
   sizes = "(min-width: 1024px) 50vw, 100vw",
   className = "",
   zoom = false,
+  fit = "cover",
   children,
 }: Props) {
   return (
@@ -43,7 +50,7 @@ export default function MediaFrame({
           fill
           sizes={sizes}
           preload={preload}
-          className={`object-cover ${
+          className={`${fit === "contain" ? "object-contain" : "object-cover"} ${
             zoom
               ? "transition-transform duration-[900ms] ease-out group-hover/media:scale-[1.06] group-hover:scale-[1.06] group-focus-visible:scale-[1.06]"
               : ""

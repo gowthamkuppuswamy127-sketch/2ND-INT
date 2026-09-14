@@ -72,7 +72,12 @@ export default function ServiceList() {
                   i === active ? "opacity-100" : "opacity-0"
                 }`}
               >
-                <MediaFrame slot={panel} sizes="42vw" className="h-full" />
+                <MediaFrame
+                  slot={panel}
+                  sizes="42vw"
+                  className="h-full"
+                  fit="contain"
+                />
               </div>
             ))}
           </div>
