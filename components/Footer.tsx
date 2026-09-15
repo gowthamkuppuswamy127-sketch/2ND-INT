@@ -14,8 +14,8 @@ export default function Footer() {
               Nilayaa
             </p>
             <p className="mt-5 max-w-[34ch] text-[0.9375rem] leading-relaxed text-page/80">
-              An interior design studio working in lime, teak, stone and brass
-              across Tamil Nadu and Kerala.
+              An interior design studio based in Bengaluru, working in lime,
+              teak, stone and brass.
             </p>
           </div>
 

@@ -7,7 +7,7 @@ import { siteMedia } from "@/lib/media";
 export const metadata: Metadata = {
   title: "Studio",
   description:
-    "Nilayaa Interiors is an eight-person interior design studio working across Tamil Nadu and Kerala since 2016.",
+    "Nilayaa Interiors is an eight-person interior design studio based in Basavanagudi, Bengaluru, working since 2016.",
 };
 
 export default function StudioPage() {

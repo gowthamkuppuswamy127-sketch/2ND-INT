@@ -1,14 +1,15 @@
 /**
  * All site copy outside of the project entries.
  *
- * Contact details below are placeholders in the right shape — replace them
- * with the studio's real address, phone and email before launch.
+ * Contact details are the studio's real ones (address and phone confirmed
+ * against its Google Business listing: 4.8★, 161 reviews). Email has no
+ * real source yet and stays a placeholder in the right shape.
  */
 
 export const site = {
   name: "Nilayaa Interiors",
   shortName: "Nilayaa",
-  tagline: "Interior design studio — Karaikudi & Chennai",
+  tagline: "Interior design studio — Basavanagudi, Bengaluru",
   foundedYear: 2016,
 };
 
@@ -20,7 +21,7 @@ export const nav = [
 
 export const home = {
   hero: {
-    eyebrow: "Interior design studio — Karaikudi & Chennai",
+    eyebrow: "Interior design studio — Basavanagudi, Bengaluru",
     headline: "Rooms that hold the light",
     subline:
       "We work in lime, teak, stone and brass, and design rooms for the way light moves through them across a day.",
@@ -94,14 +95,13 @@ export const home = {
   },
   /* Paired with `site.foundedYear` at the call site, which computes the
      one stat — years in practice — that shouldn't be hand-typed and left
-     to go stale. The other three are grounded in real, structural facts
-     elsewhere in this file: team size (studio.team) and studio count
-     (contact.studios.length) rather than invented round numbers. */
+     to go stale. Team size is grounded in studio.team; the rating is the
+     studio's real Google Business figure, not invented. */
   stats: {
     items: [
       { value: "35+", label: "Projects completed" },
       { value: "8", label: "People in the studio" },
-      { value: "2", label: "Studios — Karaikudi & Chennai" },
+      { value: "4.8", label: "Google rating, 161 reviews" },
     ],
   },
   featureBand: {
@@ -120,17 +120,16 @@ export const home = {
     link: { href: "/studio", label: "The full process" },
   },
   /**
-   * Sample pull-quotes, in the shape real client feedback would take —
-   * first name and project only, no surnames or photographs invented.
-   * Replace with actual testimonials, attributed with permission, before
-   * launch.
+   * The rating is real (the studio's Google Business figure). The quotes
+   * below it are still samples, in the shape real client feedback would
+   * take — first name and project only, no surnames or photographs
+   * invented. Replace with actual reviews, attributed with permission,
+   * before launch.
    */
   testimonials: {
     label: "Client feedback",
     heading: "What it's like to work with the studio",
-    /* Sample, same as the quotes below — replace once there's enough real
-       feedback to average. */
-    rating: { value: "4.9", of: "5", label: "Average across recent projects" },
+    rating: { value: "4.8", of: "5", label: "161 Google reviews" },
     items: [
       {
         quote:
@@ -194,7 +193,7 @@ export const studio = {
     heading: "Nilayaa means a dwelling",
     body: [
       "Nilaya is Sanskrit for a dwelling — the place something comes to rest. We took the name because it describes the job better than the word interiors does. A house is not a surface to be finished. It is somewhere a family settles.",
-      "The studio has worked since 2016 across Tamil Nadu and Kerala, mostly on houses, and mostly on houses that already exist.",
+      "The studio is based in Basavanagudi, Bengaluru, and has worked since 2016 on houses across South India — mostly ones that already exist.",
     ],
   },
   principles: {
@@ -254,16 +253,18 @@ export const contact = {
   label: "Contact",
   heading: "Start a conversation",
   body: "Tell us where the house is, roughly when you would like to start, and what is prompting the work. We reply to everything within a few days.",
+  // No real inbox exists yet — this is a placeholder in the right shape.
   email: "studio@nilayaa.in",
-  phone: "+91 98400 00000",
+  phone: "+91 99455 58884",
   studios: [
     {
-      name: "Karaikudi",
-      lines: ["14 Sekkalai Road", "Karaikudi 630001", "Tamil Nadu"],
-    },
-    {
-      name: "Chennai",
-      lines: ["2nd Floor, 18 Cathedral Road", "Chennai 600086", "Tamil Nadu"],
+      name: "Basavanagudi",
+      lines: [
+        "2nd Floor, 54/3, Puttanna Road",
+        "Opposite Jawa bike showroom",
+        "Basavanagudi, Bengaluru 560004",
+        "Karnataka",
+      ],
     },
   ],
   enquiryTypes: [

@@ -31,11 +31,11 @@ export const metadata: Metadata = {
     template: "%s — Nilayaa Interiors",
   },
   description:
-    "Nilayaa Interiors is an interior design studio working on residential and hospitality interiors in natural stone, oak and brass.",
+    "Nilayaa Interiors is a Bengaluru interior design studio working on residential and hospitality interiors in natural stone, oak and brass.",
   openGraph: {
     title: "Nilayaa Interiors",
     description:
-      "An interior design studio working in natural stone, oak and brass.",
+      "A Bengaluru interior design studio working in natural stone, oak and brass.",
     type: "website",
   },
 };

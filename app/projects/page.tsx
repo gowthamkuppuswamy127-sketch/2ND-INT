@@ -6,7 +6,7 @@ import { projects } from "@/content/projects";
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Recent interiors and restoration work by Nilayaa Interiors across Tamil Nadu and Kerala.",
+    "Recent interiors and restoration work by Nilayaa Interiors, a Bengaluru design studio.",
 };
 
 export default function ProjectsPage() {
