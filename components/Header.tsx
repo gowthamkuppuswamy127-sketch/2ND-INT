@@ -29,15 +29,28 @@ function subscribeScroll(onChange: () => void) {
   };
 }
 
+/** How far past the hero counts as "past it": measured off the hero's own
+    rendered height when `<HeroMedia>` is present (its `#home-hero` id),
+    rather than a fixed fraction of the viewport. The hero is a plain
+    ~86dvh/100dvh block on most pages, but on desktop the home page's is a
+    tall (200dvh) scroll-pinned wrapper for the grow-in effect — a fixed
+    `0.7 * innerHeight` threshold would then fire while that effect was still
+    barely a third done. Falling back to the old fixed fraction when the
+    element isn't found keeps this safe to call on every route, not just
+    home. */
+function scrolledPastHero(): boolean {
+  const hero = document.getElementById("home-hero");
+  const threshold = hero
+    ? hero.offsetHeight - window.innerHeight * 0.3
+    : window.innerHeight * 0.7;
+  return window.scrollY > threshold;
+}
+
 /** Same `useSyncExternalStore` shape as usePrefersReducedMotion: reads a
     browser value React doesn't own, correct from the very first client
     read rather than lagging a render behind the way effect+setState would. */
 function useScrolledPastHero(): boolean {
-  return useSyncExternalStore(
-    subscribeScroll,
-    () => window.scrollY > window.innerHeight * 0.7,
-    () => false,
-  );
+  return useSyncExternalStore(subscribeScroll, scrolledPastHero, () => false);
 }
 
 export default function Header() {

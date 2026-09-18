@@ -349,6 +349,29 @@ html:not(.js) [data-carousel-controls] {
   display: none;
 }
 
+/* <HeroMedia>'s resting card size, same `.js`-gating idiom as the reveals
+   above and for the same reason: without JavaScript the effect never runs,
+   so the card must default to full-bleed (its plain, un-gated `inset-0`
+   className) — but on a JS-enabled desktop browser, that full-bleed default
+   would still be what the very first paint shows, since the browser paints
+   the server-rendered HTML before any script has run, and only *then* does
+   the component's layout effect shrink it down to this size. That shrink,
+   sized and timed exactly like this, is what Chrome's layout-shift observer
+   was flagging as measurable CLS on the home page.
+   Gating this behind `.js` (added synchronously, before first paint — see
+   layout.tsx) means a JS-enabled browser paints this exact size from the
+   very first frame, so there is nothing left to visibly correct after
+   hydration. The numbers must stay identical to the `minWidth`/`minHeight`/
+   `maxRadius` math in HeroMedia's layout effect — see the comment there. */
+@media (min-width: 768px) {
+  .js .hero-card {
+    width: min(42vw, 640px);
+    height: min(50vh, 460px);
+    margin: auto;
+    border-radius: 28px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -363,5 +386,37 @@ html:not(.js) [data-carousel-controls] {
   .js [data-reveal] {
     opacity: 1;
     transform: none;
+  }
+
+  /* <HeroMedia>'s pin wrapper is tall purely to give the scroll-driven grow
+     effect room to play out; its layout effect already declines to touch the
+     card's size under reduced motion, but without this the wrapper's extra
+     height would still be there — 100dvh of blank scrolling with nothing
+     happening. Collapsing it back to content height and un-sticking the
+     section makes reduced motion equivalent to the effect never having
+     existed, matching the always-full-bleed, no-JS state. */
+  #home-hero {
+    height: auto !important;
+  }
+
+  .hero-pin-stage {
+    position: static !important;
+  }
+
+  /* The `.js .hero-card` rule above sizes the card down assuming the layout
+     effect will take over from there as the visitor scrolls — true only when
+     the effect actually runs. Under reduced motion it returns immediately
+     and never touches the card at all (see its own comment), so without
+     this override a JS-enabled, motion-reduced visitor would be left with
+     that rule's small card size permanently, never growing into the
+     full-bleed hero everyone else gets. `width`/`height: auto` on a box
+     already pinned to all four edges via `inset-0` is what makes it fill
+     its container with no explicit size at all — the same "nothing
+     overrides inset-0" default the mobile and no-JS cases already rely on. */
+  .hero-card {
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
   }
 }
