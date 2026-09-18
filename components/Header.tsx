@@ -81,7 +81,7 @@ export default function Header() {
         <Link
           href="/"
           aria-label={`${site.name}, home`}
-          className={`font-display text-lg leading-none tracking-tight transition-colors sm:text-xl ${
+          className={`font-display text-lg leading-none tracking-normal transition-colors sm:text-xl ${
             overlay ? "text-page" : "text-ink"
           }`}
         >
@@ -170,7 +170,7 @@ export default function Header() {
             href="/"
             aria-label={`${site.name}, home`}
             onClick={() => setMenuOpen(false)}
-            className="font-display text-lg leading-none tracking-tight text-ink"
+            className="font-display text-lg leading-none tracking-normal text-ink"
           >
             {site.name}
           </Link>
