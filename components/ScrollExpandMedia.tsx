@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import {
   ReactNode,
   useEffect,
@@ -54,8 +55,13 @@ interface ScrollExpandMediaProps {
       `contentVisible` below — unlike `title`, which is always on from
       scroll 0 and splits apart as `scrollProgress` moves. Kept as a
       separate prop rather than folded into `title` so the two behaviors
-      don't have to be reconciled into one. */
-  heroText?: string;
+      don't have to be reconciled into one. ReactNode (not string) so a
+      caller can mark up its own mobile-only line break. */
+  heroText?: ReactNode;
+  /** Mobile-only CTA shown under `heroText` (desktop has no equivalent —
+      the nav's own "Enquire" link covers that there). Only rendered
+      alongside `heroText`, since it has nothing to anchor under otherwise. */
+  heroCta?: { href: string; label: string };
   children?: ReactNode;
 }
 
@@ -71,6 +77,7 @@ const ScrollExpandMedia = ({
   scrollToExpand,
   textBlend,
   heroText,
+  heroCta,
   children,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
@@ -295,16 +302,24 @@ const ScrollExpandMedia = ({
             // content height) — `inset-0` here needs that full height to
             // center against.
             <motion.div
-              className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-5 text-center sm:px-8 md:px-10"
+              className="pointer-events-none absolute inset-0 z-20 flex flex-col items-start justify-center px-5 text-left sm:px-8 md:items-center md:px-10 md:text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={
                 contentVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
               }
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              <h1 className="display-hero max-w-[15ch] text-page [text-shadow:0_2px_28px_rgb(0_0_0_/_0.4)]">
+              <h1 className="display-hero max-w-none text-[2.25rem] text-page [text-shadow:0_2px_28px_rgb(0_0_0_/_0.4)] md:max-w-[15ch] md:text-[clamp(2.75rem,6.4vw,5.25rem)]">
                 {heroText}
               </h1>
+              {heroCta && (
+                <Link
+                  href={heroCta.href}
+                  className="label btn-outline pointer-events-auto mt-6 md:hidden"
+                >
+                  {heroCta.label}
+                </Link>
+              )}
             </motion.div>
           )}
 

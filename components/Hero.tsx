@@ -15,7 +15,17 @@ export default function Hero() {
       bgImageSrc={heroScrollBackground.src}
       bgImageAlt={heroScrollBackground.alt}
       bgTone={heroScrollBackground.tone}
-      heroText="Where Beautiful Ideas Become Home."
+      heroText={
+        // The `block` spans force this onto two lines on mobile regardless
+        // of viewport width; md:inline lets it flow as one run of text
+        // (unchanged from before) once ScrollExpandMedia's own md:
+        // overrides take over.
+        <>
+          <span className="block md:inline">Where Beautiful</span>{" "}
+          <span className="block md:inline">Ideas Become Home.</span>
+        </>
+      }
+      heroCta={{ href: "/contact", label: "Book a Consultation" }}
     />
   );
 }
