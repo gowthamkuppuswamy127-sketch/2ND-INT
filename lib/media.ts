@@ -142,10 +142,12 @@ export const siteMedia = {
  * `home.spaces.items` in content/studio.ts — keep the two arrays the same
  * length and the same order.
  *
- * All four share one wide 16:9 landscape ratio for the filmstrip row in
- * <SpaceStrip>. The bath and bedroom source photos are natively portrait,
- * so this crops them (object-cover, centred) — chosen deliberately after
- * comparing layouts against the real photos.
+ * All landscape, but not uniform: the wide half of each pair in <SpaceStrip>
+ * (kitchen, bedroom) is 16:9, the narrow half (dining, bath) is 4:3 — closer
+ * to the actual box each ends up in once the 7/5 column split is applied.
+ * The bath and bedroom source photos are natively portrait, so this crops
+ * them (object-cover, centred) — chosen deliberately after comparing
+ * layouts against the real photos.
  */
 export const homeSpaces: MediaSlot[] = [
   {
@@ -157,13 +159,13 @@ export const homeSpaces: MediaSlot[] = [
   {
     src: "/photos/dining-teak-crockery.webp",
     alt: "A teak dining room, sited to catch the morning light",
-    aspect: "16 / 9",
+    aspect: "4 / 3",
     tone: "linen",
   },
   {
     src: "/photos/bathroom-cream-tile.webp",
     alt: "Grey stone tile, softened by steam and morning light",
-    aspect: "16 / 9",
+    aspect: "4 / 3",
     tone: "oak",
   },
   {
