@@ -181,8 +181,14 @@ const ScrollExpandMedia = ({
     return () => el.removeEventListener("error", handleError);
   }, [isLocalVideo, mediaSrc, videoFailed]);
 
-  const mediaWidth = 300 + effectiveProgress * (isMobileState ? 650 : 1250);
-  const mediaHeight = 400 + effectiveProgress * (isMobileState ? 200 : 400);
+  // Grown in vw/dvh, not capped px, so progress=1 lands on exactly the
+  // viewport's own size — centering a viewport-unit box inside this
+  // component's (possibly narrower, `container`-capped) positioning parent
+  // still lines its edges up with the real viewport edges, since both are
+  // centered the same way.
+  const mediaWidth = `calc(300px + ${effectiveProgress} * (100vw - 300px))`;
+  const mediaHeight = `calc(400px + ${effectiveProgress} * (100dvh - 400px))`;
+  const mediaRadius = 16 * (1 - effectiveProgress);
   const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
 
   const firstWord = title ? title.split(" ")[0] : "";
@@ -226,13 +232,12 @@ const ScrollExpandMedia = ({
           <div className="container mx-auto flex flex-col items-center justify-start relative z-10">
             <div className="flex flex-col items-center justify-center w-full h-[100dvh] relative">
               <div
-                className="absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none rounded-2xl"
+                className="absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none"
                 style={{
-                  width: `${mediaWidth}px`,
-                  height: `${mediaHeight}px`,
-                  maxWidth: "95vw",
-                  maxHeight: "85vh",
-                  boxShadow: "0px 0px 50px rgba(0, 0, 0, 0.3)",
+                  width: mediaWidth,
+                  height: mediaHeight,
+                  borderRadius: mediaRadius,
+                  boxShadow: `0px 0px 50px rgba(0, 0, 0, ${0.3 * (1 - effectiveProgress)})`,
                 }}
               >
                 {isYouTube ? (
@@ -249,13 +254,15 @@ const ScrollExpandMedia = ({
                             "?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&disablekb=1&modestbranding=1&playlist=" +
                             mediaSrc.split("v=")[1]
                       }
-                      className="w-full h-full rounded-xl"
+                      className="w-full h-full"
+                      style={{ borderRadius: mediaRadius }}
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     />
                     <motion.div
-                      className="absolute inset-0 bg-ink/30 rounded-xl"
+                      className="absolute inset-0 bg-ink/30"
+                      style={{ borderRadius: mediaRadius }}
                       initial={{ opacity: 0.7 }}
                       animate={{ opacity: 0.5 - effectiveProgress * 0.3 }}
                       transition={{ duration: 0.2 }}
@@ -272,13 +279,15 @@ const ScrollExpandMedia = ({
                       playsInline
                       preload="auto"
                       aria-hidden="true"
-                      className="w-full h-full object-cover rounded-xl"
+                      className="w-full h-full object-cover"
+                      style={{ borderRadius: mediaRadius }}
                       controls={false}
                       disablePictureInPicture
                       disableRemotePlayback
                     />
                     <motion.div
-                      className="absolute inset-0 bg-ink/30 rounded-xl"
+                      className="absolute inset-0 bg-ink/30"
+                      style={{ borderRadius: mediaRadius }}
                       initial={{ opacity: 0.7 }}
                       animate={{ opacity: 0.5 - effectiveProgress * 0.3 }}
                       transition={{ duration: 0.2 }}
@@ -290,11 +299,13 @@ const ScrollExpandMedia = ({
                       src={mediaSrc}
                       alt={title || "Media content"}
                       fill
-                      sizes="95vw"
-                      className="object-cover rounded-xl"
+                      sizes="100vw"
+                      className="object-cover"
+                      style={{ borderRadius: mediaRadius }}
                     />
                     <motion.div
-                      className="absolute inset-0 bg-ink/50 rounded-xl"
+                      className="absolute inset-0 bg-ink/50"
+                      style={{ borderRadius: mediaRadius }}
                       initial={{ opacity: 0.7 }}
                       animate={{ opacity: 0.7 - effectiveProgress * 0.3 }}
                       transition={{ duration: 0.2 }}
