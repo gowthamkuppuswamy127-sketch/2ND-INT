@@ -18,6 +18,11 @@ function subscribeResize(onChange: () => void) {
   return () => window.removeEventListener("resize", onChange);
 }
 
+// Kept as a literal (not templated into the Tailwind classes below, which
+// need the static string for their arbitrary-value scan) so the JS calc and
+// the section's own min-h/h classes can't drift apart.
+const MOBILE_HERO_HEIGHT = "86dvh";
+
 /** Same `useSyncExternalStore` shape as usePrefersReducedMotion/Header's
     useScrolledPastHero: correct from the first client read rather than
     lagging a render behind the way effect+setState would — this value
@@ -214,8 +219,14 @@ const ScrollExpandMedia = ({
   // landscape footage hard on a tall, narrow screen — but a full-bleed,
   // edge-to-edge fill at the end of the scroll is the actual target, crop
   // and all, same as desktop.
+  //
+  // The section's own height on mobile is capped short of 100dvh (see
+  // MOBILE_HERO_HEIGHT below and its matching `min-h-[86dvh]`/`h-[86dvh]`
+  // classes further down) — a sliver of the next section left visible on
+  // load, matched to a specific reference size. Desktop keeps the true
+  // 100dvh since the scroll-hijack expand there depends on it.
   const mediaWidth = `calc(300px + ${effectiveProgress} * (100vw - 300px))`;
-  const mediaHeight = `calc(400px + ${effectiveProgress} * (100dvh - 400px))`;
+  const mediaHeight = `calc(400px + ${effectiveProgress} * (${isMobileState ? MOBILE_HERO_HEIGHT : "100dvh"} - 400px))`;
   const mediaRadius = 16 * (1 - effectiveProgress);
   const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
 
@@ -225,15 +236,16 @@ const ScrollExpandMedia = ({
   return (
     <div className="transition-colors duration-700 ease-in-out overflow-x-hidden">
       {/* overflow-hidden: the bg-image layer just below is absolutely
-          positioned (`inset-0`) against this box, sized off `min-h-[100dvh]`
-          — which tracks the *content's* height, not a fixed one. Any
-          mismatch between that and the real viewport (dvh's address-bar
-          jitter on mobile, a sub-pixel rounding) used to let the image paint
-          past this box's own bottom edge, into whatever section follows on
-          the page. This clips it to the hero's box no matter what the
-          height math does, which is the actual fix — cropping, not sizing. */}
-      <section className="relative flex flex-col items-center justify-start min-h-[100dvh] overflow-hidden">
-        <div className="relative w-full flex flex-col items-center min-h-[100dvh]">
+          positioned (`inset-0`) against this box, sized off `min-h-[86dvh]
+          md:min-h-[100dvh]` — which tracks the *content's* height, not a
+          fixed one. Any mismatch between that and the real viewport (dvh's
+          address-bar jitter on mobile, a sub-pixel rounding) used to let the
+          image paint past this box's own bottom edge, into whatever section
+          follows on the page. This clips it to the hero's box no matter what
+          the height math does, which is the actual fix — cropping, not
+          sizing. */}
+      <section className="relative flex flex-col items-center justify-start min-h-[86dvh] md:min-h-[100dvh] overflow-hidden">
+        <div className="relative w-full flex flex-col items-center min-h-[86dvh] md:min-h-[100dvh]">
           <motion.div
             className="absolute inset-0 z-0 h-full"
             initial={{ opacity: 0 }}
@@ -271,7 +283,7 @@ const ScrollExpandMedia = ({
           </motion.div>
 
           <div className="container mx-auto flex flex-col items-center justify-start relative z-10">
-            <div className="flex flex-col items-center justify-center w-full h-[100dvh] relative">
+            <div className="flex flex-col items-center justify-center w-full h-[86dvh] md:h-[100dvh] relative">
               <div
                 className="absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none"
                 style={{
