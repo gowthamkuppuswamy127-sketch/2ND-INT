@@ -73,7 +73,7 @@ export default function MediaFrame({
       )}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 border border-rule"
+        className="pointer-events-none absolute inset-0 rounded-[inherit] border border-rule"
       />
       {/* After the hairline, so an overlay sits above it rather than under. */}
       {children}
