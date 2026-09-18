@@ -1,9 +1,11 @@
 import ScrollExpandMedia from "@/components/ScrollExpandMedia";
 import { heroScrollBackground, heroVideo } from "@/lib/media";
 
-// No title/date/children: the hero carries no copy of its own (see
-// ScrollExpandMedia's own comment on why the trailing content section is
-// gone entirely, not just emptied). Just the scroll-driven video expand.
+// No date/children: the hero carries no other copy (see ScrollExpandMedia's
+// own comment on why the trailing content section is gone entirely, not
+// just emptied). `title` is the studio name — ScrollExpandMedia splits it
+// on its first word and translates each half in the opposite horizontal
+// direction as the hero's scroll-expand progresses.
 export default function Hero() {
   return (
     <ScrollExpandMedia
@@ -13,6 +15,7 @@ export default function Hero() {
       bgImageSrc={heroScrollBackground.src}
       bgImageAlt={heroScrollBackground.alt}
       bgTone={heroScrollBackground.tone}
+      title="NILAYAA INTERIORS"
     />
   );
 }
