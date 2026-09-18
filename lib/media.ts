@@ -191,8 +191,12 @@ export const homeSpaces: MediaSlot[] = [
 ];
 
 /**
- * Photography for the two photo cells in <ProcessGrid> (steps 1 and 3 of
- * the homepage's four-step teaser — the other two are text-only cells).
+ * Photography for the four cells in <ProcessGrid>, one per homepage teaser
+ * step. The "Making" entry reuses a project gallery photo (see
+ * content/projects.ts) rather than a dedicated shot — MediaFrame crops to
+ * this slot's own `aspect` via object-cover regardless of the source
+ * photo's native ratio, so sharing it here is no different from any other
+ * cell reading off its own aspect box.
  */
 export const homeProcess: MediaSlot[] = [
   {
@@ -212,6 +216,12 @@ export const homeProcess: MediaSlot[] = [
     alt: "A kitchen visualised before the cabinets were built",
     aspect: "1080 / 864",
     tone: "linen",
+  },
+  {
+    src: "/photos/bedroom-under-construction.webp",
+    alt: "A house mid-rebuild, framing exposed before the finishes go on",
+    aspect: "141 / 118",
+    tone: "brass",
   },
 ];
 

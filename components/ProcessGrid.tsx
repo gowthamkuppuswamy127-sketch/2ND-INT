@@ -4,12 +4,12 @@ import { studio } from "@/content/studio";
 import { homeProcess } from "@/lib/media";
 
 /**
- * A four-step teaser of the full five-step process on /studio. Each tile is
- * a single card — photo, then a numbered heading, body copy and a giant
- * `.ghost-number` watermark bleeding off the bottom-right corner. The first
- * three steps get a photo; the fourth — `homeProcess` only has three
- * entries — falls back to a text-only card, so handover reads as the
- * outcome rather than another plate in the row.
+ * A four-step teaser of the full five-step process on /studio (handover,
+ * the fifth step, is left for that page). Each tile is a single card —
+ * photo, then a numbered heading, body copy and a giant `.ghost-number`
+ * watermark bleeding off the bottom-right corner. Every step has a matching
+ * `homeProcess` photo; the text-only branch below stays as a fallback for
+ * a step added without one, same as MediaFrame's own missing-photo idiom.
  */
 export default function ProcessGrid() {
   const steps = studio.process.steps.slice(0, 4);
