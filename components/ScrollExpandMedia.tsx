@@ -182,22 +182,25 @@ const ScrollExpandMedia = ({
   }, [isLocalVideo, mediaSrc, videoFailed]);
 
   // Grown in vw/dvh, not capped px, so progress=1 lands on exactly the
-  // viewport's own size — centering a viewport-unit box inside this
-  // component's (possibly narrower, `container`-capped) positioning parent
-  // still lines its edges up with the real viewport edges, since both are
-  // centered the same way.
-  const mediaWidth = `calc(300px + ${effectiveProgress} * (100vw - 300px))`;
-  // On mobile this used to grow to the full 100dvh viewport height
-  // regardless of the media's own shape. The hero video/poster is a
-  // landscape 16:9 shot, so forcing it to cover a tall, narrow phone
-  // screen meant object-cover had to zoom in until only a thin vertical
-  // sliver of the frame survived — cropping out whatever sat left/right of
-  // dead centre. Capping the mobile height at the video's own ratio
-  // (relative to the full-width box above) keeps the box shape matched to
-  // the footage shape, so nothing needs to be cropped to fill it.
-  // `min(..., 100dvh)` guards a landscape-oriented phone, where
-  // width*9/16 could otherwise exceed the viewport height.
-  const mobileExpandedHeight = "min(calc(100vw * 9 / 16), 100dvh)";
+  // viewport's own size on desktop — centering a viewport-unit box inside
+  // this component's (possibly narrower, `container`-capped) positioning
+  // parent still lines its edges up with the real viewport edges, since
+  // both are centered the same way.
+  //
+  // Mobile targets a fixed portrait card instead of the viewport's own
+  // size: 88vw wide, tall enough to read as a portrait frame (capped so it
+  // never overflows a short phone viewport). A previous version of this
+  // capped the mobile box at the media's own 16:9 *landscape* ratio, to
+  // avoid object-cover cropping it — correct as far as it went, but it
+  // also meant the box itself was short and wide, nothing like a phone
+  // hero. The design this is matched to wants the opposite: a big,
+  // deliberately-cropped portrait card, edge-to-edge inside its own
+  // margin, not a letterboxed sliver of the untouched frame.
+  const mobileExpandedWidth = "88vw";
+  const mobileExpandedHeight = `min(calc(${mobileExpandedWidth} * 16 / 9), 82dvh)`;
+  const mediaWidth = isMobileState
+    ? `calc(300px + ${effectiveProgress} * (${mobileExpandedWidth} - 300px))`
+    : `calc(300px + ${effectiveProgress} * (100vw - 300px))`;
   const mediaHeight = isMobileState
     ? `calc(400px + ${effectiveProgress} * (${mobileExpandedHeight} - 400px))`
     : `calc(400px + ${effectiveProgress} * (100dvh - 400px))`;
@@ -237,13 +240,12 @@ const ScrollExpandMedia = ({
                 fill
                 preload
                 sizes="100vw"
-                // Same landscape-vs-tall-viewport mismatch as the media box
-                // above: on mobile this plate covers the section edge to
-                // edge, so a wide backdrop photo got cropped down to a
-                // near-unrecognisable sliver behind the media box. Contain
-                // keeps the whole plate legible — letterboxed, not
-                // stretched past recognition.
-                className={isMobileState ? "object-contain" : "object-cover"}
+                // Always cover, on mobile too: this plate is a full-bleed
+                // backdrop behind the media card, meant to fill the section
+                // edge to edge like the reference it's matched to — letting
+                // it contain/letterbox just put visible empty bars around
+                // it instead.
+                className="object-cover"
                 onError={() => setBgImageFailed(true)}
               />
             ) : (
