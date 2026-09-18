@@ -2,7 +2,6 @@ import Link from "next/link";
 import FeatureBand from "@/components/FeatureBand";
 import GalleryMarquee from "@/components/GalleryMarquee";
 import Hero from "@/components/Hero";
-import MediaFrame from "@/components/MediaFrame";
 import ProcessGrid from "@/components/ProcessGrid";
 import ProjectCarousel from "@/components/ProjectCarousel";
 import Reveal from "@/components/Reveal";
@@ -11,9 +10,10 @@ import SpaceStrip from "@/components/SpaceStrip";
 import StatsRow from "@/components/StatsRow";
 import TeamGrid from "@/components/TeamGrid";
 import Testimonials from "@/components/Testimonials";
+import VideoBand from "@/components/VideoBand";
 import { projects } from "@/content/projects";
 import { home, site, studio } from "@/content/studio";
-import { siteMedia } from "@/lib/media";
+import { homeBandVideo } from "@/lib/media";
 
 export default function HomePage() {
   // Computed, not hand-typed, so it doesn't go stale — same reasoning as
@@ -128,9 +128,9 @@ export default function HomePage() {
       </section>
 
       <Reveal>
-        <MediaFrame
-          slot={siteMedia.homeBand}
-          sizes="100vw"
+        <VideoBand
+          src={homeBandVideo.src}
+          poster={homeBandVideo.poster}
           className="h-[34vh] min-h-64 md:h-[46vh]"
         />
       </Reveal>

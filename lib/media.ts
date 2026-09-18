@@ -94,6 +94,28 @@ export const heroScrollBackground: MediaSlot = {
   tone: "stone",
 };
 
+/**
+ * Second video on the page, played by `<VideoBand>` in the full-bleed strip
+ * between the project carousel and testimonials (previously a static photo
+ * in that slot — see the removed `homeBand` entry this replaced). Muted,
+ * looping, decorative, same never-broken poster/tonal fallback as
+ * `heroVideo` above.
+ */
+export const homeBandVideo: { src: string; poster: MediaSlot } = {
+  // Kept at its uploaded name, dropped straight into public/ — same idiom
+  // as heroVideo's own file.
+  src: "/b_Use_the_provided_ima.mp4",
+  poster: {
+    // The video's own first frame (`ffmpeg -i … -vframes 1`), so there's no
+    // flash between the poster and playback starting — same idiom as
+    // hero-poster.jpg.
+    src: "/theatre-poster.jpg",
+    alt: "A tiered home theatre in cream leather recliners, facing the screen",
+    aspect: "16 / 9",
+    tone: "shade",
+  },
+};
+
 export const siteMedia = {
   /* Not currently placed on the page — kept ready for whenever the intro
      section grows a supporting image. */
@@ -108,14 +130,6 @@ export const siteMedia = {
     alt: "A bedroom finished in charcoal lacquer, with a floating stone-topped nightstand",
     aspect: "795 / 1020",
     tone: "shade",
-  },
-  /* A wide, quiet breathing-room strip between the project carousel and the
-     testimonials — no heading, no caption, just one more finished room. */
-  homeBand: {
-    src: "/photos/kitchen-marble-pantry.webp",
-    alt: "A finished kitchen in book-matched marble, the full width of the room",
-    aspect: "1280 / 576",
-    tone: "linen",
   },
   studioPortrait: {
     src: "/photos/study-wood-slat.webp",
