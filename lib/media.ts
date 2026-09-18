@@ -82,6 +82,19 @@ export const heroVideo: { src: string; poster: MediaSlot } = {
   },
 };
 
+/**
+ * Full-bleed background plate behind the hero's scroll-expand animation
+ * (`<ScrollExpandMedia>`). Drop the supplied render in at this exact path —
+ * public/hero-scroll.png — and it appears with no further code change; the
+ * tonal field stands in until then, so the hero never shows a broken image.
+ */
+export const heroScrollBackground: MediaSlot = {
+  src: "/hero-scroll.png",
+  alt: "A softly lit Nilayaa interior render",
+  aspect: "16 / 9",
+  tone: "stone",
+};
+
 export const siteMedia = {
   /* Not currently placed on the page — kept ready for whenever the intro
      section grows a supporting image. */
