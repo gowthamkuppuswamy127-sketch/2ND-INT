@@ -1,10 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TONE_FIELDS, heroVideo } from "@/lib/media";
-import { home } from "@/content/studio";
 
 // useLayoutEffect only on the client. This component is statically
 // prerendered, and React's server renderer warns on useLayoutEffect (it has
@@ -50,8 +48,9 @@ export default function Hero() {
   return (
     // Header floats over this as an absolute overlay on the home route, so it
     // no longer reserves its own ~5rem of flow height — the hero fills the
-    // full viewport instead of svh-minus-header.
-    <section className="relative flex min-h-svh items-end overflow-hidden">
+    // full viewport instead of svh-minus-header. Nothing here is in flow:
+    // the frame is the whole hero, so min-h-svh alone sets the height.
+    <section className="relative min-h-svh overflow-hidden">
       <div className="absolute inset-0">
         {heroVideo.poster.src ? (
           // preload: this is the page's LCP element — a `<link>` goes in the
@@ -92,9 +91,10 @@ export default function Hero() {
           />
         )}
 
-        {/* Scrim. The headline sits bottom-left, so weight the gradient there
-            rather than flattening the whole frame. Also what keeps the
-            transparent header's nav legible for the frame it floats over. */}
+        {/* Scrim. Kept now that the hero carries no copy of its own: the top
+            end is what keeps the transparent header's nav legible over the
+            frame it floats over, and the heavier foot sits the scroll cue
+            against the image rather than in it. */}
         <div
           aria-hidden="true"
           className="absolute inset-0"
@@ -126,29 +126,6 @@ export default function Hero() {
           </svg>
         </span>
       </a>
-
-      <div className="relative mx-auto w-full max-w-[80rem] px-5 pb-16 pt-32 sm:px-8 md:px-10 md:pb-24 md:pt-40">
-        <p className="label animate-[hero-in_800ms_cubic-bezier(0.22,1,0.36,1)_both] text-page/75">
-          {home.hero.eyebrow}
-        </p>
-
-        <h1 className="display-hero mt-6 max-w-[16ch] animate-[hero-in_800ms_cubic-bezier(0.22,1,0.36,1)_120ms_both] text-page">
-          {home.hero.headline}
-        </h1>
-
-        <p className="mt-7 max-w-[48ch] animate-[hero-in_800ms_cubic-bezier(0.22,1,0.36,1)_240ms_both] text-[1.0625rem] leading-relaxed text-page/85">
-          {home.hero.subline}
-        </p>
-
-        <div className="mt-10 animate-[hero-in_800ms_cubic-bezier(0.22,1,0.36,1)_360ms_both]">
-          <Link
-            href={home.hero.cta.href}
-            className="label inline-block border border-page/40 px-8 py-4 text-page transition-colors duration-300 hover:border-page hover:bg-page hover:text-ink"
-          >
-            {home.hero.cta.label}
-          </Link>
-        </div>
-      </div>
     </section>
   );
 }
