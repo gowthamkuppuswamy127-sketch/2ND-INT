@@ -50,6 +50,12 @@ interface ScrollExpandMediaProps {
   date?: string;
   scrollToExpand?: string;
   textBlend?: boolean;
+  /** The page's own `<h1>`, left-aligned over the media and gated on
+      `contentVisible` below — unlike `title`, which is centered, always on
+      from scroll 0, and splits apart as `scrollProgress` moves. Kept as a
+      separate prop rather than folded into `title` so the two behaviors
+      don't have to be reconciled into one. */
+  heroText?: string;
   children?: ReactNode;
 }
 
@@ -64,6 +70,7 @@ const ScrollExpandMedia = ({
   date,
   scrollToExpand,
   textBlend,
+  heroText,
   children,
 }: ScrollExpandMediaProps) => {
   const [scrollProgress, setScrollProgress] = useState<number>(0);
@@ -281,6 +288,25 @@ const ScrollExpandMedia = ({
             )}
             <div aria-hidden="true" className="absolute inset-0 bg-ink/35" />
           </motion.div>
+
+          {heroText && (
+            // Anchored to the OUTER section edge, not the `container` below
+            // (which caps out and centers on very wide viewports) — this
+            // stays pinned to the true left edge at any width, aligned with
+            // the header logo above it via the same px-5/8/10 scale.
+            <motion.div
+              className="pointer-events-none absolute inset-y-0 left-0 z-20 flex flex-col justify-center px-5 sm:px-8 md:px-10"
+              initial={{ opacity: 0, y: 20 }}
+              animate={
+                contentVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+              }
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <h1 className="display-hero max-w-[15ch] text-page [text-shadow:0_2px_28px_rgb(0_0_0_/_0.4)]">
+                {heroText}
+              </h1>
+            </motion.div>
+          )}
 
           <div className="container mx-auto flex flex-col items-center justify-start relative z-10">
             <div className="flex flex-col items-center justify-center w-full h-[86dvh] md:h-[100dvh] relative">
