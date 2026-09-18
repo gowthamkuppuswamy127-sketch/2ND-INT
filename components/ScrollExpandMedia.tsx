@@ -302,7 +302,7 @@ const ScrollExpandMedia = ({
             // content height) — `inset-0` here needs that full height to
             // center against.
             <motion.div
-              className="pointer-events-none absolute inset-0 z-20 flex flex-col items-start justify-center px-5 text-left sm:px-8 md:items-center md:px-10 md:text-center"
+              className="pointer-events-none absolute inset-0 z-20 flex flex-col items-start justify-end px-5 pb-12 text-left sm:px-8 md:items-center md:justify-center md:px-10 md:pb-0 md:text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={
                 contentVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
