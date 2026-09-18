@@ -187,7 +187,20 @@ const ScrollExpandMedia = ({
   // still lines its edges up with the real viewport edges, since both are
   // centered the same way.
   const mediaWidth = `calc(300px + ${effectiveProgress} * (100vw - 300px))`;
-  const mediaHeight = `calc(400px + ${effectiveProgress} * (100dvh - 400px))`;
+  // On mobile this used to grow to the full 100dvh viewport height
+  // regardless of the media's own shape. The hero video/poster is a
+  // landscape 16:9 shot, so forcing it to cover a tall, narrow phone
+  // screen meant object-cover had to zoom in until only a thin vertical
+  // sliver of the frame survived — cropping out whatever sat left/right of
+  // dead centre. Capping the mobile height at the video's own ratio
+  // (relative to the full-width box above) keeps the box shape matched to
+  // the footage shape, so nothing needs to be cropped to fill it.
+  // `min(..., 100dvh)` guards a landscape-oriented phone, where
+  // width*9/16 could otherwise exceed the viewport height.
+  const mobileExpandedHeight = "min(calc(100vw * 9 / 16), 100dvh)";
+  const mediaHeight = isMobileState
+    ? `calc(400px + ${effectiveProgress} * (${mobileExpandedHeight} - 400px))`
+    : `calc(400px + ${effectiveProgress} * (100dvh - 400px))`;
   const mediaRadius = 16 * (1 - effectiveProgress);
   const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
 
@@ -224,7 +237,13 @@ const ScrollExpandMedia = ({
                 fill
                 preload
                 sizes="100vw"
-                className="object-cover"
+                // Same landscape-vs-tall-viewport mismatch as the media box
+                // above: on mobile this plate covers the section edge to
+                // edge, so a wide backdrop photo got cropped down to a
+                // near-unrecognisable sliver behind the media box. Contain
+                // keeps the whole plate legible — letterboxed, not
+                // stretched past recognition.
+                className={isMobileState ? "object-contain" : "object-cover"}
                 onError={() => setBgImageFailed(true)}
               />
             ) : (
