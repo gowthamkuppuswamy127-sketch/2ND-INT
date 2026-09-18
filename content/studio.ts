@@ -31,8 +31,8 @@ export const home = {
     label: "The studio",
     heading: "We design for the hours",
     body: [
-      "A room is used differently at seven in the morning than at seven in the evening, and most of the decisions worth making are about that difference — where the light lands, what it lands on, and what the room is for at that hour.",
-      "So we start with orientation and daylight before we start with finishes. It is slower at the beginning and considerably faster afterwards, because the expensive changes are the ones made late.",
+      "A room is used differently at seven in the morning than at seven at night. Most decisions worth making are about that difference — where the light lands, and what the room is for.",
+      "So we start with orientation and daylight, not finishes. It's slower at first and faster after — the expensive changes are the ones made late.",
     ],
     link: { href: "/studio", label: "About the practice" },
   },
