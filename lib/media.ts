@@ -142,32 +142,34 @@ export const siteMedia = {
  * `home.spaces.items` in content/studio.ts — keep the two arrays the same
  * length and the same order.
  *
- * The aspects are deliberately uneven: the third plate is the tall one the
- * strip steps up to. Changing them changes the rhythm of the row.
+ * All four share one wide 16:9 landscape ratio for the filmstrip row in
+ * <SpaceStrip>. The bath and bedroom source photos are natively portrait,
+ * so this crops them (object-cover, centred) — chosen deliberately after
+ * comparing layouts against the real photos.
  */
 export const homeSpaces: MediaSlot[] = [
   {
     src: "/photos/kitchen-olive-green.webp",
     alt: "Morning light on a glazed tile backsplash and olive cabinetry",
-    aspect: "1080 / 598",
+    aspect: "16 / 9",
     tone: "stone",
   },
   {
     src: "/photos/dining-teak-crockery.webp",
     alt: "A teak dining room, sited to catch the morning light",
-    aspect: "1280 / 852",
+    aspect: "16 / 9",
     tone: "linen",
   },
   {
     src: "/photos/bathroom-cream-tile.webp",
     alt: "Grey stone tile, softened by steam and morning light",
-    aspect: "802 / 1020",
+    aspect: "16 / 9",
     tone: "oak",
   },
   {
     src: "/photos/bedroom-floral-blind.webp",
     alt: "A west-facing bedroom shaded against the late sun",
-    aspect: "679 / 1020",
+    aspect: "16 / 9",
     tone: "shade",
   },
 ];
