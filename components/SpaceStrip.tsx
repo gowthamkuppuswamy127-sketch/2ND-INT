@@ -20,8 +20,8 @@ export default function SpaceStrip() {
   return (
     <ul className="grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-12">
       {home.spaces.items.map((item, i) => (
-        <li key={item.tag} className={`flex ${SPANS[i]}`}>
-          <Reveal delay={i * 90} className="flex flex-1 flex-col">
+        <li key={item.tag} className={`flex min-w-0 ${SPANS[i]}`}>
+          <Reveal delay={i * 90} className="flex min-w-0 flex-1 flex-col">
             <MediaFrame
               slot={homeSpaces[i]}
               sizes="(min-width: 1024px) 45vw, (min-width: 640px) 55vw, 100vw"
