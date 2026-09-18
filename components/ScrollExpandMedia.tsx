@@ -316,7 +316,11 @@ const ScrollExpandMedia = ({
                 <div className="flex flex-col items-center text-center relative z-10 mt-4 transition-none">
                   {date && (
                     <p
-                      className="label text-page/90"
+                      // Reduced motion never translates this caption away (see the
+                      // effectiveProgress/textTranslateX comments above), so it rests
+                      // on the plain page background instead of the image+overlay
+                      // backdrop the page-tinted colour is otherwise legible on.
+                      className="label text-page/90 motion-reduce:text-brass"
                       style={{ transform: `translateX(-${textTranslateX}vw)` }}
                     >
                       {date}
@@ -324,7 +328,7 @@ const ScrollExpandMedia = ({
                   )}
                   {scrollToExpand && (
                     <p
-                      className="label text-page/80 text-center"
+                      className="label text-page/80 text-center motion-reduce:text-brass/80"
                       style={{ transform: `translateX(${textTranslateX}vw)` }}
                     >
                       {scrollToExpand}
@@ -354,7 +358,7 @@ const ScrollExpandMedia = ({
             </div>
 
             <motion.section
-              className="flex flex-col w-full px-8 py-10 md:px-16 lg:py-20"
+              className="flex flex-col w-full bg-page px-8 py-10 md:px-16 lg:py-20"
               initial={{ opacity: 0 }}
               animate={{ opacity: contentVisible ? 1 : 0 }}
               transition={{ duration: 0.7 }}
