@@ -85,7 +85,7 @@ export default function Header() {
             overlay ? "text-page" : "text-ink"
           }`}
         >
-          {site.shortName}
+          {site.name}
         </Link>
 
         <div className="flex items-center gap-6 sm:gap-10">
@@ -172,7 +172,7 @@ export default function Header() {
             onClick={() => setMenuOpen(false)}
             className="font-display text-lg leading-none tracking-tight text-ink"
           >
-            {site.shortName}
+            {site.name}
           </Link>
 
           <button
