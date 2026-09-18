@@ -1,11 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import {
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { motion } from "framer-motion";
 import { TONE_FIELDS, type Tone } from "@/lib/media";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
+
+function subscribeResize(onChange: () => void) {
+  window.addEventListener("resize", onChange, { passive: true });
+  return () => window.removeEventListener("resize", onChange);
+}
+
+/** Same `useSyncExternalStore` shape as usePrefersReducedMotion/Header's
+    useScrolledPastHero: correct from the first client read rather than
+    lagging a render behind the way effect+setState would — this value
+    gates whether the scroll-hijack effect attaches at all, so a late
+    correction would let it attach on mobile for one tick. */
+function useIsMobile(): boolean {
+  return useSyncExternalStore(
+    subscribeResize,
+    () => window.innerWidth < 768,
+    () => false,
+  );
+}
 
 interface ScrollExpandMediaProps {
   mediaType?: "video" | "image";
@@ -41,30 +65,34 @@ const ScrollExpandMedia = ({
   const [showContent, setShowContent] = useState<boolean>(false);
   const [mediaFullyExpanded, setMediaFullyExpanded] = useState<boolean>(false);
   const [touchStartY, setTouchStartY] = useState<number>(0);
-  const [isMobileState, setIsMobileState] = useState<boolean>(false);
   const [videoFailed, setVideoFailed] = useState<boolean>(false);
   const [bgImageFailed, setBgImageFailed] = useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isMobileState = useIsMobile();
 
   const isYouTube = mediaType === "video" && mediaSrc.includes("youtube.com");
   const isLocalVideo = mediaType === "video" && !isYouTube;
   const bgImageOk = Boolean(bgImageSrc) && !bgImageFailed;
 
-  // Reduced motion rests at the fully-expanded, fully-shown state instead of
-  // the scroll-driven one — derived here rather than synced through an
-  // effect, so there's no extra render-then-correct step. The effect below
-  // never attaches its listeners in this case, so the underlying
-  // `scrollProgress` state is simply never moved off its initial 0 — which
-  // is also why the title's translate-apart effect further down, reading
-  // that same raw state, naturally stays put instead of needing its own
-  // reduced-motion branch.
-  const effectiveProgress = prefersReducedMotion ? 1 : scrollProgress;
-  const contentVisible = prefersReducedMotion || showContent;
+  // Reduced motion and mobile both rest at the fully-expanded, fully-shown
+  // state instead of the scroll-driven one — derived here rather than
+  // synced through an effect, so there's no extra render-then-correct step.
+  // The effect below never attaches its listeners in either case, so the
+  // underlying `scrollProgress` state is simply never moved off its initial
+  // 0 — which is also why the title's translate-apart effect further down,
+  // reading that same raw state, naturally stays put instead of needing its
+  // own branch. Mobile drops the wheel/touch scroll-hijack outright rather
+  // than adapting it — there's no touch-friendly way to say "expand, then
+  // release to keep scrolling" — so the video just shows full-bleed
+  // immediately and the page scrolls normally underneath it.
+  const effectiveProgress =
+    prefersReducedMotion || isMobileState ? 1 : scrollProgress;
+  const contentVisible = prefersReducedMotion || isMobileState || showContent;
 
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || isMobileState) return;
 
     const handleWheel = (e: WheelEvent) => {
       if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
@@ -149,18 +177,13 @@ const ScrollExpandMedia = ({
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY, prefersReducedMotion]);
-
-  useEffect(() => {
-    const checkIfMobile = (): void => {
-      setIsMobileState(window.innerWidth < 768);
-    };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
+  }, [
+    scrollProgress,
+    mediaFullyExpanded,
+    touchStartY,
+    prefersReducedMotion,
+    isMobileState,
+  ]);
 
   // `src` is assigned here, never as a JSX attribute — this component is
   // statically prerendered, so a `src` written into JSX ships already in
