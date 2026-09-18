@@ -182,28 +182,17 @@ const ScrollExpandMedia = ({
   }, [isLocalVideo, mediaSrc, videoFailed]);
 
   // Grown in vw/dvh, not capped px, so progress=1 lands on exactly the
-  // viewport's own size on desktop — centering a viewport-unit box inside
-  // this component's (possibly narrower, `container`-capped) positioning
-  // parent still lines its edges up with the real viewport edges, since
-  // both are centered the same way.
-  //
-  // Mobile targets a fixed portrait card instead of the viewport's own
-  // size: 88vw wide, tall enough to read as a portrait frame (capped so it
-  // never overflows a short phone viewport). A previous version of this
-  // capped the mobile box at the media's own 16:9 *landscape* ratio, to
-  // avoid object-cover cropping it — correct as far as it went, but it
-  // also meant the box itself was short and wide, nothing like a phone
-  // hero. The design this is matched to wants the opposite: a big,
-  // deliberately-cropped portrait card, edge-to-edge inside its own
-  // margin, not a letterboxed sliver of the untouched frame.
-  const mobileExpandedWidth = "88vw";
-  const mobileExpandedHeight = `min(calc(${mobileExpandedWidth} * 16 / 9), 82dvh)`;
-  const mediaWidth = isMobileState
-    ? `calc(300px + ${effectiveProgress} * (${mobileExpandedWidth} - 300px))`
-    : `calc(300px + ${effectiveProgress} * (100vw - 300px))`;
-  const mediaHeight = isMobileState
-    ? `calc(400px + ${effectiveProgress} * (${mobileExpandedHeight} - 400px))`
-    : `calc(400px + ${effectiveProgress} * (100dvh - 400px))`;
+  // viewport's own size on every device — centering a viewport-unit box
+  // inside this component's (possibly narrower, `container`-capped)
+  // positioning parent still lines its edges up with the real viewport
+  // edges, since both are centered the same way. Mobile previously capped
+  // this short of fullscreen (first at the video's own 16:9 ratio, then at
+  // a fixed 88vw portrait card) to avoid object-cover cropping the
+  // landscape footage hard on a tall, narrow screen — but a full-bleed,
+  // edge-to-edge fill at the end of the scroll is the actual target, crop
+  // and all, same as desktop.
+  const mediaWidth = `calc(300px + ${effectiveProgress} * (100vw - 300px))`;
+  const mediaHeight = `calc(400px + ${effectiveProgress} * (100dvh - 400px))`;
   const mediaRadius = 16 * (1 - effectiveProgress);
   const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
 
