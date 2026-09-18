@@ -9,12 +9,15 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Get in touch with Nilayaa Interiors about a house, a restoration or a hospitality project.",
+  alternates: { canonical: "/contact" },
+  openGraph: { url: "/contact" },
 };
 
 export default function ContactPage() {
   return (
     <div className="shell py-section-sm md:py-section">
-      <Reveal>
+      {/* Above the fold on every viewport — see Reveal's `immediate`. */}
+      <Reveal immediate>
         <header className="max-w-[52ch]">
           <p className="label">{contact.label}</p>
           <h1 className="display-section mt-5">{contact.heading}</h1>

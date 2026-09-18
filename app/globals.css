@@ -48,10 +48,26 @@
     -webkit-font-smoothing: antialiased;
     /* Several sections deliberately bleed past their own shell (the project
        carousel's peek-past-the-edge cards, the gallery marquee's full-width
-       strips). Each is independently contained by its own overflow rule, but
-       this is the backstop: whatever the exact cause, the page itself must
-       never gain real horizontal scroll from it. */
+       strips), and `Reveal direction="right"` drifts its content in from
+       +22px, which on a 412px phone put the page's scroll width 2px past its
+       client width — a real, measurable horizontal scroll on mobile.
+       `clip` rather than `hidden`: `overflow: hidden` on body propagates to
+       the viewport and makes the whole document a scroll container, which is
+       what let those 2px become pannable in the first place and is a known
+       source of scroll jank on iOS. `clip` crops without ever creating a
+       scroll container, so `position: sticky` in the header and the section
+       stacks below keep working. `hidden` stays first as the fallback for
+       engines that don't know `clip`. */
     overflow-x: hidden;
+  }
+
+  /* Written as a feature query rather than two declarations on one rule:
+     the minifier collapses same-property declarations and drops the
+     fallback, so `hidden` would never reach an engine without `clip`. */
+  @supports (overflow-x: clip) {
+    body {
+      overflow-x: clip;
+    }
   }
 
   ::selection {
@@ -221,16 +237,32 @@
   }
 }
 
-/* Hero load-in. Staggered by delay at the call site. */
+/* Hero load-in.
+   One animation on one wrapper, carrying the headline, the button and the
+   scroll cue together — deliberately not staggered, so the hero assembles in
+   a single beat instead of arriving in pieces.
+   It runs off page load rather than hydration. The previous hero animated the
+   same content with framer-motion, which meant the served HTML carried
+   `opacity: 0` on the headline and nothing appeared until React had
+   downloaded, parsed and hydrated. Here the markup ships visible and CSS —
+   which is render-blocking, so it is always in hand at first paint — does the
+   movement. If JavaScript never arrives, the hero is still complete.
+   Under prefers-reduced-motion the global rule at the foot of this file
+   collapses the duration, which with `both` resolves straight to the end
+   state. */
 @keyframes hero-in {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
     transform: none;
   }
+}
+
+.hero-in {
+  animation: hero-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* The scroll-cue at the foot of the hero: a slow, continuous nudge rather
@@ -289,6 +321,20 @@
   transition:
     opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Drop the sideways component below md. A left/right drift exists to let a
+   photo and its text converge from opposite sides, which is a layout that
+   only exists once the grid splits into columns; in the single full-width
+   column below that it has nothing to converge with, and the right-drifting
+   ones pushed 2px past the viewport edge on a 412px phone — enough to give
+   the whole document a horizontal scroll. Overriding `transform` here rather
+   than `--reveal-x` because the custom property is set inline per instance
+   and would win over anything declared in this file. */
+@media (max-width: 767px) {
+  .js [data-reveal] {
+    transform: translateY(var(--reveal-y, 14px));
+  }
 }
 
 .js [data-reveal][data-shown="true"] {

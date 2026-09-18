@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: "Studio",
   description:
     "Nilayaa Interiors is an eight-person interior design studio based in Basavanagudi, Bengaluru, working since 2016.",
+  alternates: { canonical: "/studio" },
+  openGraph: { url: "/studio" },
 };
 
 export default function StudioPage() {
@@ -15,7 +17,9 @@ export default function StudioPage() {
     <div className="py-section-sm md:py-section">
       <section className="shell">
         <div className="grid items-start gap-12 md:grid-cols-2 md:gap-16">
-          <Reveal>
+          {/* Both halves of this row are above the fold — see Reveal's
+              `immediate`. The portrait is the page's LCP element. */}
+          <Reveal immediate>
             <p className="label">{studio.intro.label}</p>
             <h1 className="display-section mt-5 max-w-[14ch]">
               {studio.intro.heading}
@@ -29,9 +33,12 @@ export default function StudioPage() {
             </div>
           </Reveal>
 
-          <Reveal delay={120}>
+          <Reveal immediate>
             <MediaFrame
               slot={siteMedia.studioPortrait}
+              /* This page's LCP element — the one image worth preloading
+                 here, same rule as the project page's cover plate. */
+              preload
               sizes="(min-width: 768px) 45vw, 100vw"
             />
           </Reveal>

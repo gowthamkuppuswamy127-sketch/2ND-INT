@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cal_Sans, Golos_Text } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -25,19 +25,53 @@ const golos = Golos_Text({
   display: "swap",
 });
 
+/**
+ * Absolute base for every generated URL — Open Graph images, canonicals and
+ * the sitemap. Without it Next emits relative OG URLs, which most crawlers
+ * and link-preview services simply drop, so shared links render bare.
+ * NEXT_PUBLIC_SITE_URL lets a preview deployment describe itself correctly;
+ * the production domain is the fallback.
+ */
+export const siteUrl = new URL(
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://nilayaainteriors.com",
+);
+
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
   title: {
     default: "Nilayaa Interiors — Interior design studio",
     template: "%s — Nilayaa Interiors",
   },
   description:
     "Nilayaa Interiors is a Bengaluru interior design studio working on residential and hospitality interiors in natural stone, oak and brass.",
+  /* Deliberately no `alternates.canonical` and no `openGraph.url` here.
+     Metadata in the root layout is inherited by every route, so a canonical
+     of "/" set once at this level would have each of the ten pages telling
+     crawlers it was really the home page — worse than declaring none at all.
+     Each route sets its own; see app/page.tsx for the home one. */
   openGraph: {
     title: "Nilayaa Interiors",
     description:
       "A Bengaluru interior design studio working in natural stone, oak and brass.",
+    siteName: "Nilayaa Interiors",
+    locale: "en_IN",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nilayaa Interiors",
+    description:
+      "A Bengaluru interior design studio working in natural stone, oak and brass.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1c1c1d",
+  colorScheme: "light",
 };
 
 export default function RootLayout({

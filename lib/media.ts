@@ -66,32 +66,23 @@ export const TONE_FIELDS: Record<Tone, string> = {
 export const heroVideo: { src: string; poster: MediaSlot } = {
   // Wired to the file supplied for the hero. Drop it in at this exact path —
   // public/a_Create_a_photorealis.mp4 — and it starts playing with no further
-  // code change; <Hero> already falls back to the poster/tonal field if this
-  // 404s, so nothing breaks in the meantime.
+  // code change; <HeroMedia> already falls back to the poster/tonal field if
+  // this 404s, so nothing breaks in the meantime.
   src: "/a_Create_a_photorealis.mp4",
   poster: {
     // Extracted from the video's own first frame (`ffmpeg -i … -vframes 1`),
     // not a separate photograph. That makes the poster pixel-identical to
     // where the video actually starts, so there's no flash or tone-field
     // placeholder before playback begins — just one continuous image that
-    // starts moving.
+    // starts moving. <HeroMedia> renders it through next/image rather than as
+    // the <video poster> attribute, so it is served resized and re-encoded
+    // per device instead of as the full 163KB jpeg, and can be marked as the
+    // LCP element.
     src: "/hero-poster.jpg",
-    alt: "Morning light crossing a plastered wall in a Nilayaa interior",
+    alt: "The entrance hall of a Nilayaa interior, in teak and polished stone",
     aspect: "16 / 9",
     tone: "stone",
   },
-};
-
-/**
- * Full-bleed background plate behind the hero's scroll-expand animation
- * (`<ScrollExpandMedia>`). The tonal field stands in if this ever 404s, so
- * the hero never shows a broken image.
- */
-export const heroScrollBackground: MediaSlot = {
-  src: "/hero-scroll.png",
-  alt: "A teak breakfast bar with patterned tile backsplash and marble counter",
-  aspect: "16 / 9",
-  tone: "stone",
 };
 
 /**

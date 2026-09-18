@@ -20,13 +20,10 @@ export const nav = [
 ];
 
 export const home = {
-  hero: {
-    eyebrow: "Interior design studio — Basavanagudi, Bengaluru",
-    headline: "Rooms that hold the light",
-    subline:
-      "We work in lime, teak, stone and brass, and design rooms for the way light moves through them across a day.",
-    cta: { href: "/projects", label: "See the work" },
-  },
+  /* No `hero` entry: the hero's headline and CTA live in <Hero>, since the
+     mobile line break is markup rather than copy. An unused `hero` block
+     sat here for a while carrying a different headline from the one the page
+     actually renders — stale copy in the content file is worse than none. */
   philosophy: {
     label: "The studio",
     heading: "We design for the hours",

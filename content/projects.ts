@@ -45,7 +45,7 @@ export const projects: Project[] = [
       { label: "Scope", value: "Restoration and interiors" },
     ],
     cover: {
-      src: "/photos/living-room-teak-ceiling.png",
+      src: "/photos/living-room-teak-ceiling.webp",
       alt: "The main living room, with a teak-panelled ceiling and brass details on the console",
       aspect: "1537 / 1023",
       tone: "stone",

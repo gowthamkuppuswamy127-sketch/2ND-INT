@@ -7,12 +7,15 @@ export const metadata: Metadata = {
   title: "Projects",
   description:
     "Recent interiors and restoration work by Nilayaa Interiors, a Bengaluru design studio.",
+  alternates: { canonical: "/projects" },
+  openGraph: { url: "/projects" },
 };
 
 export default function ProjectsPage() {
   return (
     <div className="shell py-section-sm md:py-section">
-      <Reveal>
+      {/* Above the fold on every viewport — see Reveal's `immediate`. */}
+      <Reveal immediate>
         <header className="max-w-[56ch]">
           <p className="label">Index — 2022 to 2024</p>
           <h1 className="display-section mt-5">Recent work</h1>

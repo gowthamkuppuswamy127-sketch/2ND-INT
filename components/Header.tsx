@@ -2,12 +2,31 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { nav, site } from "@/content/studio";
 
+/** Scroll fires far faster than the screen refreshes, and the only thing read
+    from it here is a boolean. Coalescing notifications into one per frame
+    means `getSnapshot` runs at most 60 times a second instead of on every
+    event, and React still only re-renders on the two crossings. */
 function subscribeScroll(onChange: () => void) {
-  window.addEventListener("scroll", onChange, { passive: true });
-  return () => window.removeEventListener("scroll", onChange);
+  let frame = 0;
+  const notify = () => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      onChange();
+    });
+  };
+
+  window.addEventListener("scroll", notify, { passive: true });
+  window.addEventListener("resize", notify, { passive: true });
+
+  return () => {
+    if (frame) cancelAnimationFrame(frame);
+    window.removeEventListener("scroll", notify);
+    window.removeEventListener("resize", notify);
+  };
 }
 
 /** Same `useSyncExternalStore` shape as usePrefersReducedMotion: reads a
@@ -25,23 +44,59 @@ export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [menuOpen, setMenuOpen] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const openerRef = useRef<HTMLButtonElement>(null);
 
   // Below `sm` there's no room for the full nav row, so it collapses behind
   // this toggle — see the mobile panel rendered at the end of the header.
   useEffect(() => {
     if (!menuOpen) return;
 
+    const panel = panelRef.current;
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        return;
+      }
+
+      // Keep Tab inside the panel while it is open. Without this the focus
+      // ring walks straight out of an "open" full-screen dialog and onto the
+      // page behind it, which for a sighted keyboard user means the focus
+      // simply disappears.
+      if (event.key !== "Tab" || !panel) return;
+
+      const focusable = panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && (active === first || !panel.contains(active))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
+
     window.addEventListener("keydown", onKeyDown);
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    // Move focus into the panel, and remember where to put it back.
+    const opener = openerRef.current;
+    panel?.querySelector<HTMLElement>("a[href], button")?.focus();
+
     return () => {
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
+      opener?.focus();
     };
   }, [menuOpen]);
 
@@ -130,6 +185,7 @@ export default function Header() {
           </Link>
 
           <button
+            ref={openerRef}
             type="button"
             onClick={() => setMenuOpen(true)}
             aria-label="Open menu"
@@ -154,12 +210,21 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Kept mounted (so it can transition) but `inert` while closed. Without
+          that the panel is only visually hidden: every link in it stays in
+          the tab order and a screen reader still finds an open dialog sitting
+          over the page. `inert` takes the whole subtree out of the a11y tree
+          and out of focus order, which is what "closed" has to mean.
+          overscroll-contain stops a flick inside the panel from chaining
+          through to the page behind it. */}
       <div
+        ref={panelRef}
         id="mobile-nav"
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
-        className={`fixed inset-0 z-50 flex flex-col overflow-y-auto bg-page transition-opacity duration-300 sm:hidden ${
+        inert={!menuOpen}
+        className={`fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-page transition-opacity duration-300 sm:hidden ${
           menuOpen
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0"

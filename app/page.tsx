@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import FeatureBand from "@/components/FeatureBand";
 import GalleryMarquee from "@/components/GalleryMarquee";
@@ -14,6 +15,11 @@ import VideoBand from "@/components/VideoBand";
 import { projects } from "@/content/projects";
 import { home, site, studio } from "@/content/studio";
 import { homeBandVideo } from "@/lib/media";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: { url: "/" },
+};
 
 export default function HomePage() {
   // Computed, not hand-typed, so it doesn't go stale — same reasoning as
