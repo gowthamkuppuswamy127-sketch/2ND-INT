@@ -196,7 +196,15 @@ const ScrollExpandMedia = ({
 
   return (
     <div className="transition-colors duration-700 ease-in-out overflow-x-hidden">
-      <section className="relative flex flex-col items-center justify-start min-h-[100dvh]">
+      {/* overflow-hidden: the bg-image layer just below is absolutely
+          positioned (`inset-0`) against this box, sized off `min-h-[100dvh]`
+          — which tracks the *content's* height, not a fixed one. Any
+          mismatch between that and the real viewport (dvh's address-bar
+          jitter on mobile, a sub-pixel rounding) used to let the image paint
+          past this box's own bottom edge, into whatever section follows on
+          the page. This clips it to the hero's box no matter what the
+          height math does, which is the actual fix — cropping, not sizing. */}
+      <section className="relative flex flex-col items-center justify-start min-h-[100dvh] overflow-hidden">
         <div className="relative w-full flex flex-col items-center min-h-[100dvh]">
           <motion.div
             className="absolute inset-0 z-0 h-full"
@@ -337,34 +345,44 @@ const ScrollExpandMedia = ({
                 </div>
               </div>
 
-              <div
-                className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${
-                  textBlend ? "mix-blend-difference" : "mix-blend-normal"
-                }`}
-              >
-                <motion.h2
-                  className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-page transition-none"
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
+              {title && (
+                <div
+                  className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${
+                    textBlend ? "mix-blend-difference" : "mix-blend-normal"
+                  }`}
                 >
-                  {firstWord}
-                </motion.h2>
-                <motion.h2
-                  className="font-display text-4xl sm:text-5xl lg:text-6xl text-center leading-[1.05] text-page transition-none"
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
-                >
-                  {restOfTitle}
-                </motion.h2>
-              </div>
+                  <motion.h2
+                    className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-page transition-none"
+                    style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                  >
+                    {firstWord}
+                  </motion.h2>
+                  <motion.h2
+                    className="font-display text-4xl sm:text-5xl lg:text-6xl text-center leading-[1.05] text-page transition-none"
+                    style={{ transform: `translateX(${textTranslateX}vw)` }}
+                  >
+                    {restOfTitle}
+                  </motion.h2>
+                </div>
+              )}
             </div>
 
-            <motion.section
-              className="flex flex-col w-full bg-page px-8 py-10 md:px-16 lg:py-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: contentVisible ? 1 : 0 }}
-              transition={{ duration: 0.7 }}
-            >
-              {children}
-            </motion.section>
+            {/* No trailing content section at all when there's nothing to put
+                in it — an empty bg-page box was exactly the thing bleeding
+                into view in the screenshot: a solid-colour box narrower than
+                the full-bleed image layer behind it, so that image's edges
+                showed on either side of it. Removing the box removes the
+                symptom at its source, rather than papering over it. */}
+            {children && (
+              <motion.section
+                className="flex flex-col w-full bg-page px-8 py-10 md:px-16 lg:py-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: contentVisible ? 1 : 0 }}
+                transition={{ duration: 0.7 }}
+              >
+                {children}
+              </motion.section>
+            )}
           </div>
         </div>
       </section>
